@@ -2227,7 +2227,7 @@
         </table>
       </div>
     </div>
-    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。</p>
+    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。</p>
   </div>
 
   <!-- ====== Full data tables ====== -->
@@ -8945,6 +8945,7 @@ const RANK_COLS = {
   q: [
     { id: 'ticker', label: '銘柄', str: true },
     { id: 'period', label: '決算期', str: true },
+    { id: 'score', label: '🏅総合', asc: true },
     { id: 'rev',  label: '売上高' },
     { id: 'revYoY', label: '売上前年比', pct: true },
     { id: 'op',   label: '営業利益' },
@@ -8960,6 +8961,7 @@ const RANK_COLS = {
   a: [
     { id: 'ticker', label: '銘柄', str: true },
     { id: 'period', label: '決算期', str: true },
+    { id: 'score', label: '🏅総合', asc: true },
     { id: 'rev',  label: '売上高' },
     { id: 'revYoY', label: '売上前年比', pct: true },
     { id: 'op',   label: '営業利益' },
@@ -8975,7 +8977,7 @@ const RANK_COLS = {
     { id: 'cash', label: '現金残高' },
   ],
 };
-let rankState = { mode: 'q', sort: 'rev', dir: -1 };
+let rankState = { mode: 'q', sort: 'score', dir: 1 };
 let rankCache = null;
 
 function buildRankData() {
@@ -9024,6 +9026,30 @@ function buildRankData() {
       });
     }
   });
+
+  // 🏅総合スコア = 主要指標の順位の平均（小さいほど上位）
+  // 除外: 投資CF/財務CF（多い少ないの良し悪しが一方向でない）、EPS（自社株買いで歪む・絶対値比較の意味が薄い）
+  const NON_USD = { PDD: true, ASML: true };  // 人民元/ユーロ建て → 金額系を除外し率系のみで計算
+  const SCORE_METRICS = {
+    q: { all: ['rev','revYoY','op','mgn','ni','fcf','ocf','cash'], rate: ['revYoY','mgn'] },
+    a: { all: ['rev','revYoY','op','mgn','ni','roe','roa','fcf','ocf','cash'], rate: ['revYoY','mgn','roe','roa'] },
+  };
+  ['q','a'].forEach(mode => {
+    const list = rows[mode];
+    const ranks = {};
+    SCORE_METRICS[mode].all.forEach(m => {
+      const sorted = list.filter(r => r[m] != null).slice().sort((x, y) => y[m] - x[m]);
+      ranks[m] = {};
+      sorted.forEach((r, i) => { ranks[m][r.ticker] = i + 1; });
+    });
+    list.forEach(r => {
+      const metrics = NON_USD[r.ticker] ? SCORE_METRICS[mode].rate : SCORE_METRICS[mode].all;
+      const rs = metrics.map(m => ranks[m] && ranks[m][r.ticker]).filter(x => x != null);
+      r.score = rs.length >= 3 ? rs.reduce((s, x) => s + x, 0) / rs.length : null;
+      r.scoreN = rs.length;
+      r.scoreNonUsd = !!NON_USD[r.ticker];
+    });
+  });
   return rows;
 }
 
@@ -9056,6 +9082,12 @@ function renderRankTable() {
     const cells = cols.map(c => {
       if (c.id === 'ticker') return `<td title="${COMPANY_INFO[r.ticker] || ''}"><strong>${idx + 1}. ${r.ticker}</strong></td>`;
       if (c.str) return `<td>${r[c.id] ?? '—'}</td>`;
+      if (c.id === 'score') {
+        const sv = r.score;
+        if (sv == null) return '<td class="num">—</td>';
+        const tip = `対象${r.scoreN}指標の順位の平均${r.scoreNonUsd ? '（通貨が違うため率系のみで計算）' : ''}`;
+        return `<td class="num" title="${tip}"><strong>${sv.toFixed(1)}</strong>${r.scoreNonUsd ? '※' : ''}</td>`;
+      }
       const val = r[c.id];
       if (val == null) return '<td class="num">—</td>';
       const cls = val > 0 ? 'positive' : (val < 0 ? 'negative' : '');
@@ -9081,7 +9113,7 @@ function renderRankTable() {
     else {
       rankState.sort = colId;
       const col = RANK_COLS[rankState.mode].find(c => c.id === colId);
-      rankState.dir = col && col.str ? 1 : -1;
+      rankState.dir = col && (col.str || col.asc) ? 1 : -1;
     }
     renderRankTable();
   });
