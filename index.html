@@ -1628,12 +1628,7 @@
           </div>
         </div>
       <div class="verdict-explanation" id="verdictExplanation">判定中…</div>
-      <div class="verdict-disclaimer">
-        <strong>📌 データソース：</strong>前回のEPS予想・実績・サプライズ率（予想との差）は <strong>Yahoo Finance Earnings History</strong>、売上実績は <strong>Yahoo Finance Financials</strong>、次回EPS/売上予想は <strong>Yahoo Finance earningsTrend API</strong>（アナリスト平均＝コンセンサス）、通年予想は <strong>stockanalysis.com</strong>、<strong>③ガイダンスは Motley Fool のカンファレンスコール transcript から会社公式発表をテキスト抽出</strong>。
-        詳細はトランスクリプト全文リンクまたは <a id="verdictSourceLink" target="_blank" style="color:#0e2a82;text-decoration:underline">Yahoo Finance Analysis</a>・IR資料で要確認。<br>
-        📝 <strong>前回売上の「予想→結果」自動保存：</strong>Yahoo Financeは過去Qの売上Estimate履歴を保存していないため、本ダッシュボードは <strong>カード⑤の次回売上予想を localStorage に自動スナップショット保存</strong>。次の決算が発表されてその四半期が「前回の四半期」になると、保存済み予想を②カードに <strong>「予想→結果（サプライズ率）」</strong>として表示します（のぶ流note記事「決算発表直前にメモ」を自動化）。初回利用時は②に実績前年比のみ表示、次の決算後から比較可能になります。
-        <div class="verdict-link-row" id="verdictLinks"></div>
-      </div>
+      
     </div>
   </div>
 
@@ -2124,7 +2119,7 @@
   </div>
 
   <!-- ====== Quarterly trends ====== -->
-  <div data-tab="earnings" class="section">
+  <div data-tab="earnings" class="section" data-levels="i a">
     <div class="section-title" data-levels="b">売上の伸び（過去12四半期）</div>
     <div class="section-title" data-levels="i a">四半期業績トレンド（直近16期）</div>
     <div class="chart-grid-2">
@@ -2330,7 +2325,7 @@
   </div>
 
   <!-- ====== Latest quarters table ====== -->
-  <div data-tab="earnings" class="section">
+  <div data-tab="earnings" class="section" data-levels="i a">
     <div class="section-title" data-levels="b">直近4四半期の数字</div>
     <div class="section-title" data-levels="i a">直近8四半期 詳細データ</div>
     <div class="table-card">
