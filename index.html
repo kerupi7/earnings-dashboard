@@ -8491,7 +8491,18 @@ function renderBeginnerIndicators() {
       if (revData && revData.past && revData.past.length >= 2) {
         const past = revData.past;
         latestRev = past[past.length - 1];
-        const yearAgoRev = past.length >= 4 ? past[past.length - 4][1] : null;
+        // 前年同期: Yahooのpastは直近4Qローリングのため真の前年同期(4Q前)が配列から落ちる。
+        // ALL_TICKERS_DATAのquarterly(百万ドル)で直近行の一致を確認した上で4Q前の行を採用（2026-06-04修正）
+        let yearAgoRev = null;
+        try {
+          const tq = (ALL_TICKERS_DATA[currentTicker] || {}).quarterly || [];
+          const lastQ = tq[tq.length - 1], yAgoQ = tq[tq.length - 5];
+          if (lastQ && yAgoQ && lastQ[1] && yAgoQ[1] && latestRev[1] &&
+              Math.abs(lastQ[1] * 1e6 - latestRev[1]) / latestRev[1] < 0.02) {
+            yearAgoRev = yAgoQ[1] * 1e6;
+          }
+        } catch (e) {}
+        if (yearAgoRev == null && past.length >= 5) yearAgoRev = past[past.length - 5][1];
         latestRevYoY = (yearAgoRev && latestRev[1]) ? (latestRev[1] / yearAgoRev - 1) * 100 : null;
         const latestRevB = latestRev[1] / 1e9;
         const yearAgoRevB = yearAgoRev ? yearAgoRev / 1e9 : null;
