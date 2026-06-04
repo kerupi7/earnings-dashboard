@@ -1209,9 +1209,116 @@
     .me-toggle button { flex: 1; }
     .me-chip { padding: 6px 11px; font-size: 11.5px; }
   }
+
+  /* ============================================================
+     EXPO 2025 THEME + TAB LAYOUT (session3)
+     公式カラー: 赤 #E60012 / 青 #0068B7（ロゴ2色）
+     ============================================================ */
+  :root {
+    --accent: #E60012;
+    --accent-dark: #A50010;
+    --expo-red: #E60012;
+    --expo-blue: #0068B7;
+    --expo-blue-dark: #00569B;
+    --bg: #f3f6fa;
+  }
+  body { background: var(--bg); }
+
+  /* --- ヘッダー: 万博ブルーの帯 + セル（細胞）モチーフ --- */
+  .header {
+    position: relative;
+    background: linear-gradient(120deg, #00569B 0%, #0068B7 58%, #1379C4 100%);
+    border-bottom: 4px solid var(--expo-red);
+    color: #fff;
+    overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(circle 52px at calc(100% - 70px) -10px, rgba(230,0,18,.9) 64%, transparent 65%),
+      radial-gradient(circle 28px at calc(100% - 16px) 58px, rgba(230,0,18,.78) 64%, transparent 65%),
+      radial-gradient(circle 18px at calc(100% - 138px) 64px, rgba(255,255,255,.30) 64%, transparent 65%),
+      radial-gradient(circle 13px at calc(100% - 172px) 12px, rgba(230,0,18,.55) 64%, transparent 65%),
+      radial-gradient(circle 9px at calc(100% - 116px) 26px, rgba(255,255,255,.55) 60%, transparent 61%),
+      radial-gradient(circle 7px at calc(100% - 196px) 44px, rgba(255,255,255,.25) 60%, transparent 61%);
+  }
+  .header > * { position: relative; z-index: 1; }
+  .ticker-name { color: rgba(255,255,255,.78); }
+  .ticker-full { color: rgba(255,255,255,.78); }
+  .ticker-select {
+    color: #fff;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4 L6 8 L10 4' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  }
+  .ticker-select:hover { background-color: rgba(255,255,255,.14); }
+  .ticker-select option, .ticker-select optgroup { color: #1c1917; background: #fff; }
+  .sector-select { background: rgba(255,255,255,.94); color: #333; border-color: rgba(255,255,255,.4); }
+  .sector-select option { color: #1c1917; }
+  .level-switcher { background: rgba(255,255,255,.18); }
+  .level-btn { color: rgba(255,255,255,.85); }
+  .level-btn:hover { color: #fff; }
+  .level-btn.active { background: #fff; color: var(--expo-red); }
+  .level-hint { color: rgba(255,255,255,.72); }
+  .header-meta { color: rgba(255,255,255,.7); }
+  .header-meta .value { color: #fff; }
+  .header-meta .value span { color: rgba(255,255,255,.75) !important; }
+  .ticker-logo { background: linear-gradient(135deg, var(--expo-blue), var(--expo-red)); }
+
+  /* --- タブバー（スクロール追従） --- */
+  .tab-bar {
+    position: sticky; top: 0; z-index: 99;
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,86,155,.08);
+  }
+  .tab-bar-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; gap: 8px; padding: 10px 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-bar-inner::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    border: 2px solid rgba(0,104,183,.28);
+    background: #fff;
+    color: var(--expo-blue);
+    font-weight: 700; font-size: 13px; font-family: inherit;
+    padding: 8px 18px; border-radius: 999px;
+    cursor: pointer; transition: all .15s ease;
+    letter-spacing: .3px;
+  }
+  .tab-btn:hover { background: rgba(0,104,183,.07); }
+  .tab-btn.active {
+    background: var(--expo-red); border-color: var(--expo-red); color: #fff;
+    box-shadow: 0 2px 8px rgba(230,0,18,.28);
+  }
+
+  /* --- タブによるセクション表示制御（inline styleより優先） --- */
+  body[data-tab="overview"] .container > .section[data-tab]:not([data-tab="overview"]),
+  body[data-tab="earnings"] .container > .section[data-tab]:not([data-tab="earnings"]),
+  body[data-tab="longterm"] .container > .section[data-tab]:not([data-tab="longterm"]),
+  body[data-tab="explore"] .container > .section[data-tab]:not([data-tab="explore"]) { display: none !important; }
+
+  /* --- セクション見出し: 赤青セルの2ドット --- */
+  .section-title { color: var(--expo-blue); font-size: 12px; }
+  .section-title::before {
+    width: 22px; height: 10px; border-radius: 0;
+    background:
+      radial-gradient(circle 5px at 5px 5px, var(--expo-red) 4.5px, transparent 5px),
+      radial-gradient(circle 4px at 16px 5px, var(--expo-blue) 3.5px, transparent 4px);
+  }
+
+  @media (max-width: 700px) {
+    .tab-bar-inner { padding: 8px 10px; gap: 6px; }
+    .tab-btn { padding: 7px 13px; font-size: 12px; }
+    .header { position: relative; }
+  }
 </style>
 </head>
-<body data-level="i">
+<body data-level="i" data-tab="overview">
 
 <div class="header">
   <div class="brand">
@@ -1344,10 +1451,19 @@
   </div>
 </div>
 
+<div class="tab-bar" id="tabBar">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" data-tab="overview">🏠 総合判定</button>
+    <button class="tab-btn" data-tab="earnings">📊 決算分析</button>
+    <button class="tab-btn" data-tab="longterm">📈 長期・指標</button>
+    <button class="tab-btn" data-tab="explore">🔍 探索・ランキング</button>
+  </div>
+</div>
+
 <div class="container">
 
   <!-- ====== BEGINNER: 判定カード + 6項目チェック ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="overview" class="section" data-levels="b">
     <div class="section-title">この会社、長期保有して大丈夫そう？</div>
     <div class="judgement-card good" id="judgementCard">
       <div class="judgement-icon" id="judgementIcon">🎉</div>
@@ -1365,7 +1481,7 @@
   </div>
 
   <!-- ====== BEGINNER: 決算発表日カレンダー ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="overview" class="section" data-levels="b">
     <div class="section-title">📅 決算発表スケジュール</div>
     <div id="earningsScheduleCard" style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:2px solid #3b82f6;border-radius:14px;padding:16px;margin-top:8px">
       <div id="earningsScheduleContent">読み込み中…</div>
@@ -1373,7 +1489,7 @@
   </div>
 
   <!-- ====== BEGINNER: 株価推移チャート（過去1年） ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="overview" class="section" data-levels="b">
     <div class="section-title">📈 過去1年の株価推移</div>
     <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:8px">
       週次終値（Yahoo Finance）。<strong style="color:#dc2626">🔴 赤丸</strong>=過去の決算発表日、<strong style="color:#2563eb">🔷 青破線</strong>=次回決算予定日。
@@ -1391,7 +1507,7 @@
   </div>
 
   <!-- ====== BEGINNER: のぶ流 6カード判定（上段:前回／下段:次回） ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="earnings" class="section" data-levels="b">
     <div class="section-title">決算判定：前回（実績）／次回（予想）の6カード</div>
     
     <div id="verdictCard" class="verdict-card good">
@@ -1463,7 +1579,7 @@
   </div>
 
   <!-- ====== BEGINNER: 業界展望・企業ポジション ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="earnings" class="section" data-levels="b">
     <div class="section-title">業界の動きと、この会社の立ち位置</div>
     <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:12px">
       決算の数字だけじゃなく、<strong>「この業界はそもそも伸びてる？」「この会社は業界の中で勝ってる？」</strong>を確認するセクション。
@@ -1514,7 +1630,7 @@
   </div>
 
   <!-- ====== BEGINNER: 4カテゴリ指標構造 ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="longterm" class="section" data-levels="b">
     <div class="section-title">5つの指標で「この会社、健康か」を見る</div>
     <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:8px">
       決算書は会社の<strong>「成績表」「健康診断書」</strong>。下の4つの観点（収益性・安全性・効率性・成長性）の5指標を順に見ていけば、その会社が稼げてるか・倒産しないか・将来伸びそうか、を整理して判断できます。
@@ -1689,7 +1805,7 @@
   </div>
 
   <!-- ====== KPIカード（中級者・上級者専用） ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="overview" class="section" data-levels="i a">
     <div class="section-title" data-levels="b">直近の数字（<span id="sectionTitleBeginnerPeriod">2026年Q1</span>）</div>
     <div class="section-title" data-levels="i a">直近四半期サマリー（<span id="sectionTitleIntPeriod">2026.Q1</span>）</div>
     <div class="kpi-grid">
@@ -1810,7 +1926,7 @@
   </div>
 
   <!-- ====== BEGINNER: 通期10年トレンド（最重要） ====== -->
-  <div class="section" data-levels="b">
+  <div data-tab="longterm" class="section" data-levels="b">
     <div class="section-title">まずこれを見て：過去10年の長期トレンド</div>
     <div class="chart-grid-2">
       <div class="chart-card">
@@ -1837,7 +1953,7 @@
   </div>
 
   <!-- ====== INTERMEDIATE: 構造的収益力の現在地 ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="overview" class="section" data-levels="i a">
     <div class="section-title">構造的収益力の現在地</div>
     <div class="structural-tag" id="structuralTag">
       <div class="structural-icon" id="structuralIcon">📈</div>
@@ -1857,7 +1973,7 @@
   </div>
 
   <!-- ====== INTERMEDIATE: 三層構造前年比 ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="earnings" class="section" data-levels="i a">
     <div class="section-title">直近の四半期 三層構造の前年比（売上 → 営業益 → 最終益）</div>
     <div class="layer-panel">
       <div class="layer-flow">
@@ -1899,7 +2015,7 @@
   </div>
 
   <!-- ====== Narrative ====== -->
-  <div class="section">
+  <div data-tab="earnings" class="section">
     <!-- Beginner narrative -->
     <div class="narrative beginner" data-levels="b" id="narrativeBeginner">読み込み中…</div>
     <!-- Intermediate narrative -->
@@ -1909,7 +2025,7 @@
   </div>
 
   <!-- ====== 今期の決算分析（全モード共通4カード） ====== -->
-  <div class="section">
+  <div data-tab="earnings" class="section">
     <div class="section-title">今期の決算分析（<span id="analysisSectionPeriod">2026年Q1</span>）</div>
     <div class="analysis-grid">
 
@@ -1949,7 +2065,7 @@
   </div>
 
   <!-- ====== Quarterly trends ====== -->
-  <div class="section">
+  <div data-tab="earnings" class="section">
     <div class="section-title" data-levels="b">売上の伸び（過去12四半期）</div>
     <div class="section-title" data-levels="i a">四半期業績トレンド（直近16期）</div>
     <div class="chart-grid-2">
@@ -1977,7 +2093,7 @@
   </div>
 
   <!-- ====== Long-term annual: 10y for intermediate ====== -->
-  <div class="section" data-levels="i">
+  <div data-tab="longterm" class="section" data-levels="i">
     <div class="section-title">通期業績の長期推移（直近10年）</div>
     <div class="chart-card full">
       <div class="chart-title">通期売上高 × 通期営業利益</div>
@@ -1992,7 +2108,7 @@
   </div>
 
   <!-- ====== Long-term annual: 35y for advanced ====== -->
-  <div class="section" data-levels="a">
+  <div data-tab="longterm" class="section" data-levels="a">
     <div class="section-title">長期推移（<span id="longTermRange">1991〜2025、35年フル</span>）</div>
     <div class="chart-card full">
       <div class="chart-title">通期売上高 × 通期営業利益</div>
@@ -2007,7 +2123,7 @@
   </div>
 
   <!-- ====== Profitability: intermediate (10y) ====== -->
-  <div class="section" data-levels="i">
+  <div data-tab="longterm" class="section" data-levels="i">
     <div class="section-title">収益性指標（直近10年）</div>
     <div class="chart-grid-2">
       <div class="chart-card">
@@ -2034,7 +2150,7 @@
   </div>
 
   <!-- ====== ADVANCED: ROEデュポン分解 ====== -->
-  <div class="section" data-levels="a">
+  <div data-tab="longterm" class="section" data-levels="a">
     <div class="section-title">ROE デュポン分解（純利益率 × 総資産回転率 × 財務レバレッジ）</div>
     <div class="dupont-card">
       <div class="dupont-formula">
@@ -2063,7 +2179,7 @@
   </div>
 
   <!-- ====== ADVANCED: ピーク水準復帰シナリオ ====== -->
-  <div class="section" data-levels="a">
+  <div data-tab="longterm" class="section" data-levels="a">
     <div class="section-title">ピーク水準復帰シナリオ（上振れ余地の定量化）</div>
     <div class="scenario-card">
       <div style="font-size:13px;color:var(--text-mute);line-height:1.6;">
@@ -2086,7 +2202,7 @@
   </div>
 
   <!-- ====== Profitability: advanced (35y / 15y) ====== -->
-  <div class="section" data-levels="a">
+  <div data-tab="longterm" class="section" data-levels="a">
     <div class="section-title">収益性指標（長期フル）</div>
     <div class="chart-grid-2">
       <div class="chart-card">
@@ -2113,7 +2229,7 @@
   </div>
 
   <!-- ====== INTERMEDIATE: 営業益 vs 営業CF 乖離 ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="longterm" class="section" data-levels="i a">
     <div class="section-title">利益の質：営業益 vs 営業CF の乖離（直近16期）</div>
     <div class="chart-card full">
       <div class="chart-title">営業利益と営業CFの推移、および差分</div>
@@ -2134,7 +2250,7 @@
   </div>
 
   <!-- ====== Cash Flow ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="longterm" class="section" data-levels="i a">
     <div class="section-title">キャッシュフロー</div>
     <div class="chart-card full">
       <div class="chart-title">CF構造（営業 / 投資 / 財務）と現金残高</div>
@@ -2155,7 +2271,7 @@
   </div>
 
   <!-- ====== Latest quarters table ====== -->
-  <div class="section">
+  <div data-tab="earnings" class="section">
     <div class="section-title" data-levels="b">直近4四半期の数字</div>
     <div class="section-title" data-levels="i a">直近8四半期 詳細データ</div>
     <div class="table-card">
@@ -2180,7 +2296,7 @@
   </div>
 
   <!-- ====== Metric explorer ====== -->
-  <div class="section">
+  <div data-tab="explore" class="section">
     <div class="section-title">🔍 気になる数字を全期間さかのぼる</div>
     <p class="me-hint">指標を選ぶと、この会社の持っている全期間のデータをグラフと表で確認できます。</p>
     <div class="me-controls">
@@ -2209,7 +2325,7 @@
   </div>
 
   <!-- ====== Ranking ====== -->
-  <div class="section">
+  <div data-tab="explore" class="section">
     <div class="section-title">🏆 全銘柄ランキング（97社をソートして比較）</div>
     <p class="me-hint">列の見出しをクリックすると、その指標の大きい順／小さい順に並び替えできます。行をクリックするとその銘柄のページに切り替わります。</p>
     <div class="me-controls">
@@ -2234,7 +2350,7 @@
   </div>
 
   <!-- ====== Full data tables ====== -->
-  <div class="section" data-levels="i a">
+  <div data-tab="explore" class="section" data-levels="i a">
     <div class="section-title">全データ</div>
 
     <details open>
@@ -2890,6 +3006,29 @@ function setLevel(level) {
 document.querySelectorAll('.level-btn').forEach(btn => {
   btn.addEventListener('click', () => setLevel(btn.dataset.level));
 });
+
+// ============================================================
+// Tab layout (EXPO 2025 theme / session3)
+// ============================================================
+const TAB_KEY = 'amd_dash_tab';
+function setTab(t) {
+  document.body.setAttribute('data-tab', t);
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  try { window.scrollTo({ top: 0 }); } catch(e) {}
+  setTimeout(() => {
+    Object.values(chartRegistry).forEach(c => { try { c.resize(); } catch(e) {} });
+  }, 60);
+  try { localStorage.setItem(TAB_KEY, t); } catch(e) {}
+}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTab(btn.dataset.tab));
+});
+(() => {
+  let t = 'overview';
+  try { t = localStorage.getItem(TAB_KEY) || 'overview'; } catch(e) {}
+  if (!document.querySelector('.tab-btn[data-tab="' + t + '"]')) t = 'overview';
+  setTab(t);
+})();
 
 // ============================================================
 // Chart.js defaults
