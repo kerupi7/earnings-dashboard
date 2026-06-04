@@ -1333,6 +1333,49 @@
   @media (max-width: 640px) {
     .verdict-duo { grid-template-columns: 1fr; }
   }
+
+  /* --- 業界・ポジション 可読性向上 (session3c) --- */
+  .ca-sub-label {
+    font-size: 12px; color: var(--expo-blue);
+    letter-spacing: .5px; margin-bottom: 6px;
+    padding-bottom: 4px; border-bottom: 1px dashed rgba(0,104,183,.3);
+  }
+  .ca-subsection { margin-top: 16px; }
+  .ca-num {
+    font-weight: 800; color: var(--expo-blue-dark);
+    font-variant-numeric: tabular-nums;
+    background: rgba(0,104,183,.08);
+    padding: 0 3px; border-radius: 4px;
+  }
+  .ca-list { list-style: none; padding-left: 0; margin-top: 6px; }
+  .ca-list li {
+    background: rgba(255,255,255,.85);
+    border: 1px solid rgba(0,0,0,.05);
+    border-left: 3px solid #94a3b8;
+    border-radius: 8px;
+    padding: 8px 12px; margin: 6px 0;
+    line-height: 1.55;
+  }
+  .ca-li-head { display: block; font-weight: 700; font-size: 12.5px; color: var(--text); }
+  .ca-li-desc { display: block; font-size: 12px; color: var(--text-mute); margin-top: 3px; }
+  .ca-li-solo { display: block; font-size: 12.5px; color: var(--text); }
+  .ca-l-trend li, .ca-l-fut li { border-left-color: var(--expo-blue); }
+  .ca-l-str li { border-left-color: #059669; }
+  .ca-l-risk li { border-left-color: #d97706; background: rgba(255,250,240,.9); }
+  .ca-l-biz li { border-left-color: #0ea5e9; }
+  .ca-l-comp li { border-left-color: #64748b; }
+  .ca-sents { margin-top: 4px; }
+  .ca-sent {
+    position: relative; padding: 5px 0 5px 15px;
+    font-size: 12.5px; line-height: 1.65; color: var(--text);
+    border-bottom: 1px dotted rgba(0,0,0,.07);
+  }
+  .ca-sent:last-child { border-bottom: none; }
+  .ca-sent::before {
+    content: ''; position: absolute; left: 0; top: 12px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--expo-red); opacity: .8;
+  }
 </style>
 </head>
 <body data-level="i" data-tab="overview">
@@ -8080,6 +8123,24 @@ function renderSegmentChart() {
   }
 }
 
+// === 業界・ポジション可読性ヘルパー (session3c) ===
+function caEmph(t) {
+  if (t == null) return '';
+  return String(t).replace(/(約?[+▲▼△±-]?\d[\d,.]*(?:〜\d[\d,.]*)?(?:兆|億|万)?(?:円|ドル|%|％|B(?![\w])|倍)|[$＄]\d[\d,.]*B?|数十(?:倍|％|%|兆円|兆|億)|約?[\d一二三四五六七八九十]割(?:超|強|弱)?)(?![^<]*>)/g, '<span class="ca-num">$1</span>');
+}
+function caLi(t) {
+  const s = String(t == null ? '' : t);
+  const m = s.match(/^(.{2,70}?)\s*(?:—|―|--)\s*(.+)$/s);
+  if (m) return `<li><span class="ca-li-head">${caEmph(m[1])}</span><span class="ca-li-desc">${caEmph(m[2])}</span></li>`;
+  return `<li><span class="ca-li-solo">${caEmph(s)}</span></li>`;
+}
+function caSent(t) {
+  const s = String(t == null ? '' : t);
+  const parts = s.split('。').map(x => x.trim()).filter(x => x.length > 0);
+  if (parts.length <= 1) return `<div class="ca-text">${caEmph(s)}</div>`;
+  return `<div class="ca-sents">` + parts.map(x => `<div class="ca-sent">${caEmph(x)}。</div>`).join('') + `</div>`;
+}
+
 function renderCompanyAnalysis() {
   const sector = SECTOR_OF[currentTicker] || 'industrials';
   const sectorData = SECTOR_OVERVIEW[sector] || SECTOR_OVERVIEW.industrials;
@@ -8099,18 +8160,18 @@ function renderCompanyAnalysis() {
   industryEl.innerHTML = `
     <div class="ca-subsection">
       <div class="ca-sub-label">🌍 市場の状況${statusPill}</div>
-      <div class="ca-text">${sectorData.market}</div>
+      <div class="ca-text">${caEmph(sectorData.market)}</div>
     </div>
     <div class="ca-subsection">
       <div class="ca-sub-label">🔑 業界の鍵となるトレンド</div>
-      <ul class="ca-list">${sectorData.trends.map(t => `<li>${t}</li>`).join('')}</ul>
+      <ul class="ca-list ca-l-trend">${sectorData.trends.map(caLi).join('')}</ul>
     </div>
     <div class="ca-subsection">
       <div class="ca-sub-label">🎯 ${currentTicker}の対応状況</div>
-      <div class="ca-text">${companyTrendStatus}</div>
+      ${caSent(companyTrendStatus)}
     </div>
     <div class="ca-subsection" style="margin-top:10px;padding:8px 10px;background:rgba(0,0,0,0.03);border-radius:6px">
-      <div class="ca-text" style="font-size:11px;color:var(--text-mute)"><strong>💡 セクター注意点：</strong>${sectorData.note}</div>
+      <div class="ca-text" style="font-size:11px;color:var(--text-mute)"><strong>💡 セクター注意点：</strong>${caEmph(sectorData.note)}</div>
     </div>
   `;
 
@@ -8123,23 +8184,23 @@ function renderCompanyAnalysis() {
   const competitors = (company && company.competitors) || null;
 
   positionEl.innerHTML = `
-    ${business && business.length ? `<div class="ca-subsection"><div class="ca-sub-label">🧩 この会社の事業（なにで稼いでいる？）</div><ul class="ca-list">${business.map(b => `<li>${b}</li>`).join('')}</ul></div>` : ''}
+    ${business && business.length ? `<div class="ca-subsection"><div class="ca-sub-label">🧩 この会社の事業（なにで稼いでいる？）</div><ul class="ca-list ca-l-biz">${business.map(caLi).join('')}</ul></div>` : ''}
     <div class="ca-subsection">
       <div class="ca-sub-label">🏛️ 業界内の立場・主力事業</div>
-      <div class="ca-text">${position}</div>
+      ${caSent(position)}
     </div>
-    ${competitors && competitors.length ? `<div class="ca-subsection"><div class="ca-sub-label">⚔️ 主な競合（ライバル会社）</div><ul class="ca-list">${competitors.map(c => `<li>${c}</li>`).join('')}</ul></div>` : ''}
+    ${competitors && competitors.length ? `<div class="ca-subsection"><div class="ca-sub-label">⚔️ 主な競合（ライバル会社）</div><ul class="ca-list ca-l-comp">${competitors.map(caLi).join('')}</ul></div>` : ''}
     <div class="ca-subsection">
       <div class="ca-sub-label">💪 強みとなる技術・商品</div>
-      <ul class="ca-list">${strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+      <ul class="ca-list ca-l-str">${strengths.map(caLi).join('')}</ul>
     </div>
     <div class="ca-subsection">
       <div class="ca-sub-label">🚀 今後を支える柱（次の主力候補）</div>
-      <ul class="ca-list">${future.map(f => `<li>${f}</li>`).join('')}</ul>
+      <ul class="ca-list ca-l-fut">${future.map(caLi).join('')}</ul>
     </div>
     <div class="ca-subsection">
       <div class="ca-sub-label">⚠️ 注意点・リスク</div>
-      <ul class="ca-list">${risks.map(r => `<li>${r}</li>`).join('')}</ul>
+      <ul class="ca-list ca-l-risk">${risks.map(caLi).join('')}</ul>
     </div>
   `;
 }
