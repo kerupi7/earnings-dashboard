@@ -1316,6 +1316,23 @@
     .tab-btn { padding: 7px 13px; font-size: 12px; }
     .header { position: relative; }
   }
+
+  /* --- 初心者・決算判定: ①②④⑤=2列コンパクト / ③⑥=全幅 (session3b) --- */
+  .verdict-duo {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin-bottom: 10px;
+  }
+  .verdict-duo .verdict-check-value { font-size: 12.5px; color: var(--text); margin-top: 3px; }
+  .verdict-duo .verdict-check-value strong { font-size: 16px; letter-spacing: -0.3px; }
+  .verdict-check.verdict-wide {
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .verdict-check.verdict-wide .verdict-check-icon { margin-top: 1px; }
+  .verdict-check.verdict-wide .verdict-check-label { margin-bottom: 4px; }
+  @media (max-width: 640px) {
+    .verdict-duo { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body data-level="i" data-tab="overview">
@@ -1508,7 +1525,7 @@
 
   <!-- ====== BEGINNER: のぶ流 6カード判定（上段:前回／下段:次回） ====== -->
   <div data-tab="earnings" class="section" data-levels="b">
-    <div class="section-title">決算判定：前回（実績）／次回（予想）の6カード</div>
+    <div class="section-title">決算判定：前回の実績 ／ 次回の予想</div>
     
     <div id="verdictCard" class="verdict-card good">
       <div class="verdict-header">
@@ -1519,8 +1536,8 @@
         </div>
       </div>
       <!-- 上段：前回の四半期（既発表の結果） -->
-      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:8px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">📋 上段：前回の四半期（既発表の結果）</div>
-      <div class="verdict-checks">
+      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:8px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">📋 前回の四半期（既発表の結果）</div>
+      <div class="verdict-duo">
         <div class="verdict-check">
           <div class="verdict-check-icon" id="verdictEpsIcon">?</div>
           <div class="verdict-check-text">
@@ -1535,17 +1552,16 @@
             <div class="verdict-check-value" id="verdictRevVal">—</div>
           </div>
         </div>
-        <div class="verdict-check">
+      </div>
+      <div class="verdict-check verdict-wide">
           <div class="verdict-check-icon" id="verdictPrevGuideIcon">📋</div>
           <div class="verdict-check-text">
             <div class="verdict-check-label">③ 会社見通し（次期・通年）</div>
             <div class="verdict-check-value" id="verdictPrevGuideVal">—</div>
           </div>
         </div>
-      </div>
-      <!-- 下段：次の四半期（これから発表） -->
-      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:14px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">🔮 下段：次の四半期（これから発表）</div>
-      <div class="verdict-checks">
+      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:14px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">🔮 次の四半期（これから発表）</div>
+      <div class="verdict-duo">
         <div class="verdict-check">
           <div class="verdict-check-icon" id="verdictNextEpsIcon">🎯</div>
           <div class="verdict-check-text">
@@ -1560,14 +1576,14 @@
             <div class="verdict-check-value" id="verdictNextRevVal">—</div>
           </div>
         </div>
-        <div class="verdict-check">
+      </div>
+      <div class="verdict-check verdict-wide">
           <div class="verdict-check-icon" id="verdictNextGuideIcon">👀</div>
           <div class="verdict-check-text">
             <div class="verdict-check-label">⑥ 次の決算で見るポイント</div>
             <div class="verdict-check-value" id="verdictNextGuideVal">—</div>
           </div>
         </div>
-      </div>
       <div class="verdict-explanation" id="verdictExplanation">判定中…</div>
       <div class="verdict-disclaimer">
         <strong>📌 データソース：</strong>前回のEPS予想・実績・サプライズ率（予想との差）は <strong>Yahoo Finance Earnings History</strong>、売上実績は <strong>Yahoo Finance Financials</strong>、次回EPS/売上予想は <strong>Yahoo Finance earningsTrend API</strong>（アナリスト平均＝コンセンサス）、通年予想は <strong>stockanalysis.com</strong>、<strong>③ガイダンスは Motley Fool のカンファレンスコール transcript から会社公式発表をテキスト抽出</strong>。
