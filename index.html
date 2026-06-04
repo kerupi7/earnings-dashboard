@@ -177,6 +177,19 @@
   .me-toggle button.active { background: white; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   .me-hint { font-size: 11px; color: var(--text-faint); margin: 0 0 10px; }
   .me-table-wrap { max-height: 420px; overflow-y: auto; }
+  /* Ranking table */
+  .rank-wrap { max-height: 560px; overflow: auto; -webkit-overflow-scrolling: touch; }
+  #rankTable th, #rankTable td { white-space: nowrap; }
+  #rankTable thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
+  #rankTable th:first-child, #rankTable td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+  #rankTable thead th:first-child { z-index: 3; }
+  #rankTable th.sortable { cursor: pointer; user-select: none; }
+  #rankTable th.sortable:hover { color: var(--accent); }
+  #rankTable th.sorted { color: var(--accent); }
+  #rankTable tbody tr { cursor: pointer; }
+  #rankTable tbody tr:hover td { background: #fafaf9; }
+  #rankTable tbody tr.current td { background: #fef2f2; }
+  .rank-note { font-size: 11px; color: var(--text-faint); margin-top: 8px; }
   .me-desc {
     background: #f9fafb; border: 1px solid var(--border); border-radius: 10px;
     padding: 12px 14px; margin-bottom: 14px; font-size: 12.5px; line-height: 1.7;
@@ -2193,6 +2206,28 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <!-- ====== Ranking ====== -->
+  <div class="section">
+    <div class="section-title">🏆 全銘柄ランキング（97社をソートして比較）</div>
+    <p class="me-hint">列の見出しをクリックすると、その指標の大きい順／小さい順に並び替えできます。行をクリックするとその銘柄のページに切り替わります。</p>
+    <div class="me-controls">
+      <div></div>
+      <div class="me-toggle" id="rankToggle">
+        <button type="button" data-mode="q" class="active">四半期（直近）</button>
+        <button type="button" data-mode="a">通期（直近年度）</button>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="table-card-inner rank-wrap">
+        <table id="rankTable">
+          <thead><tr id="rankHead"></tr></thead>
+          <tbody id="rankTbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。</p>
   </div>
 
   <!-- ====== Full data tables ====== -->
@@ -8904,6 +8939,170 @@ function renderMetricExplorer() {
 })();
 
 // ============================================================
+// 全銘柄ランキング
+// ============================================================
+const RANK_COLS = {
+  q: [
+    { id: 'ticker', label: '銘柄', str: true },
+    { id: 'period', label: '決算期', str: true },
+    { id: 'rev',  label: '売上高' },
+    { id: 'revYoY', label: '売上前年比', pct: true },
+    { id: 'op',   label: '営業利益' },
+    { id: 'mgn',  label: '営業利益率', pct: true },
+    { id: 'ni',   label: '最終利益' },
+    { id: 'eps',  label: 'EPS', dec: 2 },
+    { id: 'fcf',  label: 'フリーCF' },
+    { id: 'ocf',  label: '営業CF' },
+    { id: 'icf',  label: '投資CF' },
+    { id: 'fincf', label: '財務CF' },
+    { id: 'cash', label: '現金残高' },
+  ],
+  a: [
+    { id: 'ticker', label: '銘柄', str: true },
+    { id: 'period', label: '決算期', str: true },
+    { id: 'rev',  label: '売上高' },
+    { id: 'revYoY', label: '売上前年比', pct: true },
+    { id: 'op',   label: '営業利益' },
+    { id: 'mgn',  label: '営業利益率', pct: true },
+    { id: 'ni',   label: '最終利益' },
+    { id: 'eps',  label: 'EPS', dec: 2 },
+    { id: 'roe',  label: 'ROE', pct: true },
+    { id: 'roa',  label: 'ROA', pct: true },
+    { id: 'fcf',  label: 'フリーCF' },
+    { id: 'ocf',  label: '営業CF' },
+    { id: 'icf',  label: '投資CF' },
+    { id: 'fincf', label: '財務CF' },
+    { id: 'cash', label: '現金残高' },
+  ],
+};
+let rankState = { mode: 'q', sort: 'rev', dir: -1 };
+let rankCache = null;
+
+function buildRankData() {
+  const normP = p => {
+    if (typeof p === 'number') {
+      const yr = Math.floor(p);
+      const mo = Math.round((p - yr) * 100);
+      return yr + '.' + String(mo).padStart(2, '0');
+    }
+    return p;
+  };
+  const v = x => (x == null || (typeof x === 'number' && isNaN(x))) ? null : x;
+  const rows = { q: [], a: [] };
+  Object.keys(ALL_TICKERS_DATA).forEach(t => {
+    const d = ALL_TICKERS_DATA[t];
+    const lq = d.quarterly[d.quarterly.length - 1];
+    const pq = d.quarterly.length >= 5 ? d.quarterly[d.quarterly.length - 5] : null;
+    const lcf = d.cfQuarterly[d.cfQuarterly.length - 1];
+    if (lq) {
+      rows.q.push({
+        ticker: t, period: normP(lq[0]),
+        rev: v(lq[1]), revYoY: (v(lq[1]) != null && pq && v(pq[1])) ? (lq[1] - pq[1]) / Math.abs(pq[1]) * 100 : null,
+        op: v(lq[2]), mgn: (lq[1] > 0 && v(lq[2]) != null) ? lq[2] / lq[1] * 100 : null,
+        ni: v(lq[4]), eps: v(lq[5]),
+        fcf: lcf ? v(lcf[2]) : null, ocf: lcf ? v(lcf[3]) : null, icf: lcf ? v(lcf[4]) : null,
+        fincf: lcf ? v(lcf[5]) : null, cash: lcf ? v(lcf[6]) : null,
+      });
+    }
+    const la = d.annual[d.annual.length - 1];
+    const pa = d.annual.length >= 2 ? d.annual[d.annual.length - 2] : null;
+    const lcfa = d.cfAnnual[d.cfAnnual.length - 1];
+    if (la) {
+      const yr = String(normP(la[0])).slice(0, 4);
+      let niSum = 0, niHit = false;
+      d.quarterly.forEach(q => {
+        if (String(normP(q[0])).slice(0, 4) === yr && q[4] != null) { niSum += q[4]; niHit = true; }
+      });
+      rows.a.push({
+        ticker: t, period: String(normP(la[0])).slice(0, 4),
+        rev: v(la[1]), revYoY: (v(la[1]) != null && pa && v(pa[1])) ? (la[1] - pa[1]) / Math.abs(pa[1]) * 100 : null,
+        op: v(la[2]), mgn: v(la[3]),
+        ni: niHit ? niSum : null, eps: v(la[7]),
+        roe: v(la[4]), roa: v(la[5]),
+        fcf: lcfa ? v(lcfa[2]) : null, ocf: lcfa ? v(lcfa[3]) : null, icf: lcfa ? v(lcfa[4]) : null,
+        fincf: lcfa ? v(lcfa[5]) : null, cash: lcfa ? v(lcfa[6]) : null,
+      });
+    }
+  });
+  return rows;
+}
+
+function renderRankTable() {
+  const head = document.getElementById('rankHead');
+  const body = document.getElementById('rankTbody');
+  if (!head || !body) return;
+  if (!rankCache) rankCache = buildRankData();
+  const cols = RANK_COLS[rankState.mode];
+  if (!cols.some(c => c.id === rankState.sort)) { rankState.sort = 'rev'; rankState.dir = -1; }
+
+  head.innerHTML = cols.map(c => {
+    const sorted = c.id === rankState.sort;
+    const arrow = sorted ? (rankState.dir < 0 ? ' ▼' : ' ▲') : '';
+    return `<th class="sortable${sorted ? ' sorted' : ''}" data-col="${c.id}">${c.label}${arrow}</th>`;
+  }).join('');
+
+  const rows = rankCache[rankState.mode].slice();
+  const col = cols.find(c => c.id === rankState.sort);
+  rows.sort((x, y) => {
+    const a = x[rankState.sort], b = y[rankState.sort];
+    if (a == null && b == null) return 0;
+    if (a == null) return 1;
+    if (b == null) return -1;
+    if (col.str) return String(a).localeCompare(String(b)) * rankState.dir;
+    return (a - b) * rankState.dir;
+  });
+
+  body.innerHTML = rows.map((r, idx) => {
+    const cells = cols.map(c => {
+      if (c.id === 'ticker') return `<td title="${COMPANY_INFO[r.ticker] || ''}"><strong>${idx + 1}. ${r.ticker}</strong></td>`;
+      if (c.str) return `<td>${r[c.id] ?? '—'}</td>`;
+      const val = r[c.id];
+      if (val == null) return '<td class="num">—</td>';
+      const cls = val > 0 ? 'positive' : (val < 0 ? 'negative' : '');
+      let txt;
+      if (c.pct) txt = (val >= 0 ? '+' : '') + val.toFixed(1) + '%';
+      else if (c.dec) txt = val.toFixed(c.dec);
+      else txt = new Intl.NumberFormat('en-US').format(Math.round(val));
+      return `<td class="num ${cls}">${txt}</td>`;
+    }).join('');
+    return `<tr data-ticker="${r.ticker}"${r.ticker === currentTicker ? ' class="current"' : ''}>${cells}</tr>`;
+  }).join('');
+}
+
+(function() {
+  const head = document.getElementById('rankHead');
+  const body = document.getElementById('rankTbody');
+  const toggle = document.getElementById('rankToggle');
+  if (head) head.addEventListener('click', e => {
+    const th = e.target.closest('th.sortable');
+    if (!th) return;
+    const colId = th.dataset.col;
+    if (rankState.sort === colId) rankState.dir *= -1;
+    else {
+      rankState.sort = colId;
+      const col = RANK_COLS[rankState.mode].find(c => c.id === colId);
+      rankState.dir = col && col.str ? 1 : -1;
+    }
+    renderRankTable();
+  });
+  if (toggle) toggle.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    rankState.mode = btn.dataset.mode;
+    toggle.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    renderRankTable();
+  });
+  if (body) body.addEventListener('click', e => {
+    const tr = e.target.closest('tr[data-ticker]');
+    if (!tr) return;
+    const sel = document.getElementById('tickerSelect');
+    sel.value = tr.dataset.ticker;
+    sel.dispatchEvent(new Event('change'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ============================================================
 // renderAllCharts()
 // ============================================================
 function renderAllCharts() {
@@ -9535,6 +9734,7 @@ function filterTickersBySector(sectorKey) {
     renderAllCharts();
     renderAllValues();
     try { renderMetricExplorer(); } catch(err) { console.error('renderMetricExplorer error:', err); }
+    try { renderRankTable(); } catch(err) { console.error('renderRankTable error:', err); }
   }
 }
 
@@ -9550,6 +9750,7 @@ document.getElementById('tickerSelect').addEventListener('change', (e) => {
   try { renderAllCharts(); } catch(err) { console.error('renderAllCharts error:', err); }
   try { renderAllValues(); } catch(err) { console.error('renderAllValues error:', err); }
   try { renderMetricExplorer(); } catch(err) { console.error('renderMetricExplorer error:', err); }
+  try { renderRankTable(); } catch(err) { console.error('renderRankTable error:', err); }
   // 念のため初心者向け関数を独立呼び出し（renderAllValuesが途中で失敗しても更新される）
   try { renderEarningsSchedule(); } catch(err) { console.error('renderEarningsSchedule error:', err); }
   try { renderStockPriceChart(); } catch(err) { console.error('renderStockPriceChart error:', err); }
@@ -9580,6 +9781,7 @@ document.title = `${currentTicker} 決算ダッシュボード`;
 try { renderAllCharts(); } catch(err) { console.error('initial renderAllCharts:', err); }
 try { renderAllValues(); } catch(err) { console.error('initial renderAllValues:', err); }
 try { renderMetricExplorer(); } catch(err) { console.error('initial renderMetricExplorer:', err); }
+try { renderRankTable(); } catch(err) { console.error('initial renderRankTable:', err); }
 try { renderEarningsSchedule(); } catch(err) { console.error('initial renderEarningsSchedule:', err); }
 try { renderStockPriceChart(); } catch(err) { console.error('initial renderStockPriceChart:', err); }
 try { renderBeginnerIndicators(); } catch(err) { console.error('initial renderBeginnerIndicators:', err); }
