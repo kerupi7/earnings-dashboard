@@ -1205,7 +1205,7 @@
     .adv-grid { grid-template-columns: 1fr; }
     .check-grid { grid-template-columns: 1fr; }
     .verdict-checks { grid-template-columns: 1fr; }
-    .me-toggle { width: 100%; display: flex; }
+    .me-toggle { width: 100%; display: flex; flex-wrap: wrap; }
     .me-toggle button { flex: 1; }
     .me-chip { padding: 6px 11px; font-size: 11.5px; }
   }
@@ -2217,7 +2217,9 @@
       <div class="me-toggle" id="rankToggle">
         <button type="button" data-mode="q" class="active">四半期（直近）</button>
         <button type="button" data-mode="a">通期（直近年度）</button>
-        <button type="button" data-mode="h">全期間（歴代平均）</button>
+        <button type="button" data-mode="h5">過去5年</button>
+        <button type="button" data-mode="h10">過去10年</button>
+        <button type="button" data-mode="h">全期間</button>
       </div>
     </div>
     <div class="table-card">
@@ -2228,7 +2230,7 @@
         </table>
       </div>
     </div>
-    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。<strong>全期間（歴代平均）</strong>＝四半期ごと（ROE/ROAは年度ごと）に97社中の順位を出し、全期間ぶん平均した「歴代平均順位」。数字はすべて97社換算の順位で、<strong>小さいほど昔から一貫して上位</strong>。上場が新しい会社はデータがある期間だけで計算（期間列参照）。</p>
+    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。<strong>過去5年・過去10年・全期間</strong>＝四半期ごと（ROE/ROAは年度ごと）に97社中の順位を出し、その期間ぶん平均した「平均順位」。数字はすべて97社換算の順位で、<strong>小さいほど昔から一貫して上位</strong>。上場が新しい会社はデータがある期間だけで計算（期間列参照）。</p>
   </div>
 
   <!-- ====== Full data tables ====== -->
@@ -8996,6 +8998,8 @@ const RANK_COLS = {
     { id: 'cash', label: '現金残高', rankval: true, asc: true },
   ],
 };
+RANK_COLS.h5 = RANK_COLS.h;
+RANK_COLS.h10 = RANK_COLS.h;
 let rankState = { mode: 'q', sort: 'score', dir: 1 };
 let rankCache = null;
 
@@ -9009,7 +9013,7 @@ function buildRankData() {
     return p;
   };
   const v = x => (x == null || (typeof x === 'number' && isNaN(x))) ? null : x;
-  const rows = { q: [], a: [], h: [] };
+  const rows = { q: [], a: [], h5: [], h10: [], h: [] };
   Object.keys(ALL_TICKERS_DATA).forEach(t => {
     const d = ALL_TICKERS_DATA[t];
     const lq = d.quarterly[d.quarterly.length - 1];
@@ -9102,34 +9106,45 @@ function buildRankData() {
       addH('roe', bk, t, v(ar[4])); addH('roa', bk, t, v(ar[5]));
     });
   });
-  const hAgg = {};
-  Object.keys(hB).forEach(m => {
-    Object.keys(hB[m]).forEach(bk => {
-      const arr = hB[m][bk];
-      if (arr.length < 10) return;  // 比較相手が10社未満の期はスキップ
-      arr.sort((x, y) => y.v - x.v);
-      arr.forEach((e, i) => {
-        const pct = i / (arr.length - 1);
-        if (!hAgg[e.t]) hAgg[e.t] = {};
-        if (!hAgg[e.t][m]) hAgg[e.t][m] = { s: 0, n: 0 };
-        hAgg[e.t][m].s += pct; hAgg[e.t][m].n++;
-      });
-    });
-  });
   const H_TOTAL = ['rev','revYoY','op','mgn','ni','fcf','ocf','cash','roe','roa'];
   const H_RATE = ['revYoY','mgn','roe','roa'];
-  Object.keys(ALL_TICKERS_DATA).forEach(t => {
-    const row = { ticker: t, span: hSpan[t] ? hSpan[t][0] + '〜' + hSpan[t][1] : '—' };
-    const ag = hAgg[t] || {};
-    ['rev','revYoY','op','mgn','ni','eps','roe','roa','fcf','ocf','icf','fincf','cash'].forEach(m => {
-      row[m] = (ag[m] && ag[m].n >= 4) ? 1 + (ag[m].s / ag[m].n) * 96 : null;  // 97社換算の平均順位
+  const maxYear = Math.max(...Object.values(hSpan).map(s => s[1]));
+  const buildHistRows = minYear => {
+    const hAgg = {};
+    Object.keys(hB).forEach(m => {
+      Object.keys(hB[m]).forEach(bk => {
+        if (parseInt(bk.slice(0, 4), 10) < minYear) return;  // 期間ウィンドウ外
+        const arr = hB[m][bk];
+        if (arr.length < 10) return;  // 比較相手が10社未満の期はスキップ
+        arr.sort((x, y) => y.v - x.v);
+        arr.forEach((e, i) => {
+          const pct = i / (arr.length - 1);
+          if (!hAgg[e.t]) hAgg[e.t] = {};
+          if (!hAgg[e.t][m]) hAgg[e.t][m] = { s: 0, n: 0 };
+          hAgg[e.t][m].s += pct; hAgg[e.t][m].n++;
+        });
+      });
     });
-    const tm = (NON_USD[t] ? H_RATE : H_TOTAL).map(m => row[m]).filter(x => x != null);
-    row.score = tm.length >= 3 ? tm.reduce((s2, x) => s2 + x, 0) / tm.length : null;
-    row.scoreN = tm.length;
-    row.scoreNonUsd = !!NON_USD[t];
-    rows.h.push(row);
-  });
+    const out = [];
+    Object.keys(ALL_TICKERS_DATA).forEach(t => {
+      const sp = hSpan[t];
+      const s0 = sp ? (minYear > sp[0] ? minYear : sp[0]) : null;
+      const row = { ticker: t, span: (sp && s0 <= sp[1]) ? s0 + '〜' + sp[1] : '—' };
+      const ag = hAgg[t] || {};
+      ['rev','revYoY','op','mgn','ni','eps','roe','roa','fcf','ocf','icf','fincf','cash'].forEach(m => {
+        row[m] = (ag[m] && ag[m].n >= 4) ? 1 + (ag[m].s / ag[m].n) * 96 : null;  // 97社換算の平均順位
+      });
+      const tm = (NON_USD[t] ? H_RATE : H_TOTAL).map(m => row[m]).filter(x => x != null);
+      row.score = tm.length >= 3 ? tm.reduce((s2, x) => s2 + x, 0) / tm.length : null;
+      row.scoreN = tm.length;
+      row.scoreNonUsd = !!NON_USD[t];
+      out.push(row);
+    });
+    return out;
+  };
+  rows.h5 = buildHistRows(maxYear - 4);
+  rows.h10 = buildHistRows(maxYear - 9);
+  rows.h = buildHistRows(-Infinity);
   return rows;
 }
 
