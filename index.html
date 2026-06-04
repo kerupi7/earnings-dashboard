@@ -2217,6 +2217,7 @@
       <div class="me-toggle" id="rankToggle">
         <button type="button" data-mode="q" class="active">四半期（直近）</button>
         <button type="button" data-mode="a">通期（直近年度）</button>
+        <button type="button" data-mode="h">全期間（歴代平均）</button>
       </div>
     </div>
     <div class="table-card">
@@ -2227,7 +2228,7 @@
         </table>
       </div>
     </div>
-    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。</p>
+    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。<strong>全期間（歴代平均）</strong>＝四半期ごと（ROE/ROAは年度ごと）に97社中の順位を出し、全期間ぶん平均した「歴代平均順位」。数字はすべて97社換算の順位で、<strong>小さいほど昔から一貫して上位</strong>。上場が新しい会社はデータがある期間だけで計算（期間列参照）。</p>
   </div>
 
   <!-- ====== Full data tables ====== -->
@@ -8976,6 +8977,24 @@ const RANK_COLS = {
     { id: 'fincf', label: '財務CF' },
     { id: 'cash', label: '現金残高' },
   ],
+  h: [
+    { id: 'ticker', label: '銘柄', str: true },
+    { id: 'span', label: '期間', str: true },
+    { id: 'score', label: '🏅総合', asc: true },
+    { id: 'rev',  label: '売上高', rankval: true, asc: true },
+    { id: 'revYoY', label: '売上前年比', rankval: true, asc: true },
+    { id: 'op',   label: '営業利益', rankval: true, asc: true },
+    { id: 'mgn',  label: '営業利益率', rankval: true, asc: true },
+    { id: 'ni',   label: '最終利益', rankval: true, asc: true },
+    { id: 'eps',  label: 'EPS', rankval: true, asc: true },
+    { id: 'roe',  label: 'ROE', rankval: true, asc: true },
+    { id: 'roa',  label: 'ROA', rankval: true, asc: true },
+    { id: 'fcf',  label: 'フリーCF', rankval: true, asc: true },
+    { id: 'ocf',  label: '営業CF', rankval: true, asc: true },
+    { id: 'icf',  label: '投資CF', rankval: true, asc: true },
+    { id: 'fincf', label: '財務CF', rankval: true, asc: true },
+    { id: 'cash', label: '現金残高', rankval: true, asc: true },
+  ],
 };
 let rankState = { mode: 'q', sort: 'score', dir: 1 };
 let rankCache = null;
@@ -8990,7 +9009,7 @@ function buildRankData() {
     return p;
   };
   const v = x => (x == null || (typeof x === 'number' && isNaN(x))) ? null : x;
-  const rows = { q: [], a: [] };
+  const rows = { q: [], a: [], h: [] };
   Object.keys(ALL_TICKERS_DATA).forEach(t => {
     const d = ALL_TICKERS_DATA[t];
     const lq = d.quarterly[d.quarterly.length - 1];
@@ -9050,6 +9069,67 @@ function buildRankData() {
       r.scoreNonUsd = !!NON_USD[r.ticker];
     });
   });
+
+  // ---- 全期間（歴代平均順位）: 各期ごとに順位→パーセンタイル→全期間平均→97社換算 ----
+  const bucketQ = p => { const s = String(p); return s.slice(0, 4) + 'Q' + Math.ceil(parseInt(s.slice(5, 7), 10) / 3); };
+  const hB = {};
+  const addH = (m, bk, t, val) => {
+    if (val == null || (typeof val === 'number' && isNaN(val))) return;
+    if (!hB[m]) hB[m] = {};
+    if (!hB[m][bk]) hB[m][bk] = [];
+    hB[m][bk].push({ t, v: val });
+  };
+  const hSpan = {};
+  Object.keys(ALL_TICKERS_DATA).forEach(t => {
+    const d = ALL_TICKERS_DATA[t];
+    d.quarterly.forEach((q, i) => {
+      const p = normP(q[0]); const bk = bucketQ(p);
+      addH('rev', bk, t, v(q[1])); addH('op', bk, t, v(q[2])); addH('ni', bk, t, v(q[4])); addH('eps', bk, t, v(q[5]));
+      if (q[1] > 0 && v(q[2]) != null) addH('mgn', bk, t, q[2] / q[1] * 100);
+      const pq = i >= 4 ? d.quarterly[i - 4] : null;
+      if (v(q[1]) != null && pq && v(pq[1])) addH('revYoY', bk, t, (q[1] - pq[1]) / Math.abs(pq[1]) * 100);
+      const yrNum = parseInt(p.slice(0, 4), 10);
+      if (!hSpan[t]) hSpan[t] = [yrNum, yrNum];
+      hSpan[t][0] = Math.min(hSpan[t][0], yrNum); hSpan[t][1] = Math.max(hSpan[t][1], yrNum);
+    });
+    d.cfQuarterly.forEach(q => {
+      const bk = bucketQ(normP(q[0]));
+      addH('fcf', bk, t, v(q[2])); addH('ocf', bk, t, v(q[3])); addH('icf', bk, t, v(q[4]));
+      addH('fincf', bk, t, v(q[5])); addH('cash', bk, t, v(q[6]));
+    });
+    d.annual.forEach(ar => {
+      const bk = String(normP(ar[0])).slice(0, 4);
+      addH('roe', bk, t, v(ar[4])); addH('roa', bk, t, v(ar[5]));
+    });
+  });
+  const hAgg = {};
+  Object.keys(hB).forEach(m => {
+    Object.keys(hB[m]).forEach(bk => {
+      const arr = hB[m][bk];
+      if (arr.length < 10) return;  // 比較相手が10社未満の期はスキップ
+      arr.sort((x, y) => y.v - x.v);
+      arr.forEach((e, i) => {
+        const pct = i / (arr.length - 1);
+        if (!hAgg[e.t]) hAgg[e.t] = {};
+        if (!hAgg[e.t][m]) hAgg[e.t][m] = { s: 0, n: 0 };
+        hAgg[e.t][m].s += pct; hAgg[e.t][m].n++;
+      });
+    });
+  });
+  const H_TOTAL = ['rev','revYoY','op','mgn','ni','fcf','ocf','cash','roe','roa'];
+  const H_RATE = ['revYoY','mgn','roe','roa'];
+  Object.keys(ALL_TICKERS_DATA).forEach(t => {
+    const row = { ticker: t, span: hSpan[t] ? hSpan[t][0] + '〜' + hSpan[t][1] : '—' };
+    const ag = hAgg[t] || {};
+    ['rev','revYoY','op','mgn','ni','eps','roe','roa','fcf','ocf','icf','fincf','cash'].forEach(m => {
+      row[m] = (ag[m] && ag[m].n >= 4) ? 1 + (ag[m].s / ag[m].n) * 96 : null;  // 97社換算の平均順位
+    });
+    const tm = (NON_USD[t] ? H_RATE : H_TOTAL).map(m => row[m]).filter(x => x != null);
+    row.score = tm.length >= 3 ? tm.reduce((s2, x) => s2 + x, 0) / tm.length : null;
+    row.scoreN = tm.length;
+    row.scoreNonUsd = !!NON_USD[t];
+    rows.h.push(row);
+  });
   return rows;
 }
 
@@ -9059,7 +9139,7 @@ function renderRankTable() {
   if (!head || !body) return;
   if (!rankCache) rankCache = buildRankData();
   const cols = RANK_COLS[rankState.mode];
-  if (!cols.some(c => c.id === rankState.sort)) { rankState.sort = 'rev'; rankState.dir = -1; }
+  if (!cols.some(c => c.id === rankState.sort)) { rankState.sort = 'score'; rankState.dir = 1; }
 
   head.innerHTML = cols.map(c => {
     const sorted = c.id === rankState.sort;
@@ -9089,6 +9169,10 @@ function renderRankTable() {
         return `<td class="num" title="${tip}"><strong>${sv.toFixed(1)}</strong>${r.scoreNonUsd ? '※' : ''}</td>`;
       }
       const val = r[c.id];
+      if (c.rankval) {
+        if (val == null) return '<td class="num">—</td>';
+        return `<td class="num">${val.toFixed(1)}</td>`;
+      }
       if (val == null) return '<td class="num">—</td>';
       const cls = val > 0 ? 'positive' : (val < 0 ? 'negative' : '');
       let txt;
