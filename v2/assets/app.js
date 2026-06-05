@@ -566,7 +566,7 @@ function renderAllValues() {
     document.getElementById('miniRevValue').innerHTML = (lastAnn[1] == null ? '—' : fmt(lastAnn[1])) + '<span class="mini-unit">M$</span>';
     document.getElementById('miniOpValue').innerHTML = (lastAnn[2] == null ? '—' : fmt(lastAnn[2])) + '<span class="mini-unit">M$</span>';
     document.getElementById('miniMarginValue').innerHTML = (lastAnn[3] == null ? '—' : lastAnn[3].toFixed(2)) + '<span class="mini-unit">%</span>';
-    document.getElementById('miniRoeValue').innerHTML = (lastAnn[4] == null ? '—' : lastAnn[4].toFixed(2)) + '<span class="mini-unit">%</span>';
+    document.getElementById('miniRoeValue').innerHTML = (lastAnn[4] == null || Math.abs(lastAnn[4]) > 200 ? '—' : lastAnn[4].toFixed(2)) + '<span class="mini-unit">%</span>';
     document.getElementById('miniRoaValue').innerHTML = (lastAnn[5] == null ? '—' : lastAnn[5].toFixed(2)) + '<span class="mini-unit">%</span>';
     document.getElementById('miniCashValue').innerHTML = fmt(lqCf[6]) + '<span class="mini-unit">M$</span>';
   } catch(e) { console.error('renderAllValues/mini_stats_annual:', e); }
@@ -1498,8 +1498,8 @@ function renderBeginnerIndicators() {
   const fmtNum = (n, d=2) => n == null || isNaN(n) ? '—' : n.toFixed(d);
   const setBadge = (id, level) => {
     const el = document.getElementById(id); if (!el) return;
-    el.className = 'indicator-badge ' + level;
-    el.textContent = level === 'good' ? '✅ 良い' : level === 'ok' ? '🟡 まあまあ' : '⚠️ 注意';
+    el.className = 'indicator-badge ' + (level === 'na' ? 'ok' : level);
+    el.textContent = level === 'good' ? '✅ 良い' : level === 'ok' ? '🟡 まあまあ' : level === 'na' ? 'ℹ️ 参考値外' : '⚠️ 注意';
   };
   const setVerdict = (id, text) => {
     const el = document.getElementById(id); if (!el) return;
@@ -2012,6 +2012,7 @@ function renderBeginnerIndicators() {
     setText('indEffRoeSub', '通期ベース');
     let level, verdict;
     if (roe == null) { level = 'ok'; verdict = 'データ未取得'; }
+    else if (Math.abs(roe) > 200) { level = 'na'; verdict = `${fmtNum(roe,1)}%。自己資本がほぼゼロのため計算上の数値が極端になっています。借入で配当・自社株買いを行い自己資本を圧縮する財務戦略の結果で、経営効率の判定には使えません`; }
     else if (roe >= 15) { level = 'good'; verdict = `${fmtNum(roe,1)}%。優良ライン10%を大きく上回る経営効率`; }
     else if (roe >= 10) { level = 'good'; verdict = `${fmtNum(roe,1)}%。10%以上で優良ラインクリア`; }
     else if (roe >= 5) { level = 'ok'; verdict = `${fmtNum(roe,1)}%。優良ライン10%にはまだ届かず`; }
@@ -2359,7 +2360,7 @@ function buildRankData() {
         rev: v(la[1]), revYoY: (v(la[1]) != null && pa && v(pa[1])) ? (la[1] - pa[1]) / Math.abs(pa[1]) * 100 : null,
         op: v(la[2]), mgn: v(la[3]),
         ni: niHit ? niSum : null, eps: v(la[7]),
-        roe: v(la[4]), roa: v(la[5]),
+        roe: (v(la[4]) != null && Math.abs(v(la[4])) > 200 ? null : v(la[4])), roa: v(la[5]),
         fcf: lcfa ? v(lcfa[2]) : null, ocf: lcfa ? v(lcfa[3]) : null, icf: lcfa ? v(lcfa[4]) : null,
         fincf: lcfa ? v(lcfa[5]) : null, cash: lcfa ? v(lcfa[6]) : null,
       });
@@ -2419,7 +2420,7 @@ function buildRankData() {
     });
     d.annual.forEach(ar => {
       const bk = String(normP(ar[0])).slice(0, 4);
-      addH('roe', bk, t, v(ar[4])); addH('roa', bk, t, v(ar[5]));
+      addH('roe', bk, t, (v(ar[4]) != null && Math.abs(v(ar[4])) > 200 ? null : v(ar[4]))); addH('roa', bk, t, v(ar[5]));
     });
   });
   const H_TOTAL = ['rev','revYoY','op','mgn','ni','fcf','ocf','cash','roe','roa'];
