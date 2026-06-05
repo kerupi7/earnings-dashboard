@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHOP Shopify Inc. 決算ダッシュボード｜業績・ガイダンス・判定</title>
+<meta name="description" content="ネット通販のお店を簡単に作れる世界的なEコマース基盤企業。SHOPの四半期決算・売上3,170百万ドル・会社ガイダンス・アナリスト予想を初心者向けに解説。">
+<link rel="stylesheet" href="../../assets/app.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body data-level="i" data-tab="overview">
+
+
+<div class="header">
+  <div class="brand">
+    <div class="ticker-logo" id="tickerLogo">
+      <img id="tickerLogoImg" alt="" onerror="this.style.display='none';document.getElementById('tickerLogoText').style.display='flex';">
+      <span id="tickerLogoText">AMD</span>
+    </div>
+    <div>
+      <div class="ticker-name">NASDAQ</div>
+      <div class="ticker-selectors">
+      <select id="sectorSelect" class="sector-select" aria-label="セクター選択">
+        <option value="all">📊 すべて（111）</option>
+      </select>
+      <select id="tickerSelect" class="ticker-select" aria-label="銘柄選択">
+        <option value="AAPL">AAPL</option>
+        <option value="ABNB">ABNB</option>
+        <option value="ADBE">ADBE</option>
+        <option value="ADI">ADI</option>
+        <option value="ADP">ADP</option>
+        <option value="ADSK">ADSK</option>
+        <option value="AEP">AEP</option>
+        <option value="ALNY">ALNY</option>
+        <option value="AMAT">AMAT</option>
+        <option value="AMD">AMD</option>
+        <option value="AMGN">AMGN</option>
+        <option value="AMZN">AMZN</option>
+        <option value="APP">APP</option>
+        <option value="ARM">ARM</option>
+        <option value="ASML">ASML</option>
+        <option value="AVGO">AVGO</option>
+        <option value="AXON">AXON</option>
+        <option value="AZN">AZN</option>
+        <option value="BIIB">BIIB</option>
+        <option value="BKNG">BKNG</option>
+        <option value="BKR">BKR</option>
+        <option value="CDNS">CDNS</option>
+        <option value="CDW">CDW</option>
+        <option value="CEG">CEG</option>
+        <option value="CHTR">CHTR</option>
+        <option value="CMCSA">CMCSA</option>
+        <option value="COST">COST</option>
+        <option value="CPRT">CPRT</option>
+        <option value="CRWD">CRWD</option>
+        <option value="CSCO">CSCO</option>
+        <option value="CSGP">CSGP</option>
+        <option value="CSX">CSX</option>
+        <option value="CTAS">CTAS</option>
+        <option value="CTSH">CTSH</option>
+        <option value="DASH">DASH</option>
+        <option value="DDOG">DDOG</option>
+        <option value="DLTR">DLTR</option>
+        <option value="DXCM">DXCM</option>
+        <option value="EA">EA</option>
+        <option value="EXC">EXC</option>
+        <option value="FANG">FANG</option>
+        <option value="FAST">FAST</option>
+        <option value="FTNT">FTNT</option>
+        <option value="GEHC">GEHC</option>
+        <option value="GFS">GFS</option>
+        <option value="GILD">GILD</option>
+        <option value="GOOG">GOOG</option>
+        <option value="GOOGL">GOOGL</option>
+        <option value="HON">HON</option>
+        <option value="IDXX">IDXX</option>
+        <option value="ILMN">ILMN</option>
+        <option value="INSM">INSM</option>
+        <option value="INTC">INTC</option>
+        <option value="INTU">INTU</option>
+        <option value="ISRG">ISRG</option>
+        <option value="KDP">KDP</option>
+        <option value="KHC">KHC</option>
+        <option value="KLAC">KLAC</option>
+        <option value="LIN">LIN</option>
+        <option value="LRCX">LRCX</option>
+        <option value="LULU">LULU</option>
+        <option value="MAR">MAR</option>
+        <option value="MCHP">MCHP</option>
+        <option value="MDB">MDB</option>
+        <option value="MDLZ">MDLZ</option>
+        <option value="MELI">MELI</option>
+        <option value="META">META</option>
+        <option value="MNST">MNST</option>
+        <option value="MPWR">MPWR</option>
+        <option value="MRNA">MRNA</option>
+        <option value="MRVL">MRVL</option>
+        <option value="MSFT">MSFT</option>
+        <option value="MSTR">MSTR</option>
+        <option value="MU">MU</option>
+        <option value="NFLX">NFLX</option>
+        <option value="NVDA">NVDA</option>
+        <option value="NXPI">NXPI</option>
+        <option value="ODFL">ODFL</option>
+        <option value="ON">ON</option>
+        <option value="ORLY">ORLY</option>
+        <option value="PANW">PANW</option>
+        <option value="PAYX">PAYX</option>
+        <option value="PCAR">PCAR</option>
+        <option value="PDD">PDD</option>
+        <option value="PEP">PEP</option>
+        <option value="PLTR">PLTR</option>
+        <option value="PYPL">PYPL</option>
+        <option value="QCOM">QCOM</option>
+        <option value="REGN">REGN</option>
+        <option value="ROP">ROP</option>
+        <option value="ROST">ROST</option>
+        <option value="SBUX">SBUX</option>
+        <option value="SHOP" selected>SHOP</option>
+        <option value="SIRI">SIRI</option>
+        <option value="SNPS">SNPS</option>
+        <option value="STX">STX</option>
+        <option value="TEAM">TEAM</option>
+        <option value="TMUS">TMUS</option>
+        <option value="TRI">TRI</option>
+        <option value="TSLA">TSLA</option>
+        <option value="TTD">TTD</option>
+        <option value="TTWO">TTWO</option>
+        <option value="TXN">TXN</option>
+        <option value="VRSK">VRSK</option>
+        <option value="VRTX">VRTX</option>
+        <option value="WBD">WBD</option>
+        <option value="WDAY">WDAY</option>
+        <option value="WDC">WDC</option>
+        <option value="WMT">WMT</option>
+        <option value="XEL">XEL</option>
+        <option value="ZS">ZS</option>
+      </select>
+      </div>
+      <div class="ticker-full" id="tickerFull">Advanced Micro Devices, Inc.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="level-wrap">
+      <div class="level-switcher" role="tablist">
+        <button class="level-btn" data-level="b">初心者</button>
+        <button class="level-btn active" data-level="i">中級者</button>
+        <button class="level-btn" data-level="a">上級者</button>
+      </div>
+      <div class="level-hint" id="levelHint">同じデータを見る粒度で切替</div>
+    </div>
+    <div class="header-meta">
+      <div class="label">最新決算発表</div>
+      <div class="value"><span id="latestDate">2026-05-05</span> <span style="color:var(--text-faint)">/ <span id="latestPeriod">2026.Q1</span></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" data-tab="overview">🏠 総合判定</button>
+    <button class="tab-btn" data-tab="earnings">📊 決算分析</button>
+    <button class="tab-btn" data-tab="longterm">📈 長期・指標</button>
+    <button class="tab-btn" data-tab="explore">🔍 探索・ランキング</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ====== BEGINNER: 判定カード + 6項目チェック ====== -->
+  <div data-tab="overview" class="section" data-levels="b">
+    <div class="section-title">この会社、長期保有して大丈夫そう？</div>
+    <div class="judgement-card good" id="judgementCard">
+      <div class="judgement-icon" id="judgementIcon">🎉</div>
+      <div class="judgement-text">
+        <div class="judgement-title" id="judgementTitle">読み込み中…</div>
+        <div class="judgement-detail" id="judgementDetail">数字をチェック中…</div>
+        <div class="check-grid" id="checkGrid"></div>
+      </div>
+    </div>
+    <div class="investment-notice">
+      <strong>⚠️ これは「決算の評価」です。「株価の買い時」とは別の話です。</strong>
+      会社の業績が良くても、株価が割高だと損する可能性はあります。逆に業績悪化中でも株価が下がりすぎてれば買い時のこともあります。
+      ここでは「会社が稼げてるか・体力があるか」だけを見ています。
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: 決算発表日カレンダー ====== -->
+  <div data-tab="overview" class="section" data-levels="b">
+    <div class="section-title">📅 決算発表スケジュール</div>
+    <div id="earningsScheduleCard" style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:2px solid #3b82f6;border-radius:14px;padding:16px;margin-top:8px">
+      <div id="earningsScheduleContent">読み込み中…</div>
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: 株価推移チャート（過去1年） ====== -->
+  <div data-tab="overview" class="section" data-levels="b">
+    <div class="section-title">📈 過去1年の株価推移</div>
+    <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:8px">
+      週次終値（Yahoo Finance）。<strong style="color:#dc2626">🔴 赤丸</strong>=過去の決算発表日、<strong style="color:#2563eb">🔷 青破線</strong>=次回決算予定日。
+    </div>
+    <div style="background:white;border-radius:10px;padding:14px;border:1px solid var(--border)">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <div id="stockPriceLast" style="font-size:24px;font-weight:800;color:#0e2a82">—</div>
+        <div id="stockPriceChange" style="font-size:14px;font-weight:700">—</div>
+        <div id="stockPriceRange" style="font-size:11px;color:var(--text-mute);margin-left:auto">—</div>
+      </div>
+      <div style="height:280px;position:relative">
+        <canvas id="stockPriceChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: のぶ流 6カード判定（上段:前回／下段:次回） ====== -->
+  <div data-tab="earnings" class="section" data-levels="b">
+    <div class="section-title">決算判定：前回の実績 ／ 次回の予想</div>
+    
+    <div id="verdictCard" class="verdict-card good">
+      <div class="verdict-header">
+        <div class="verdict-icon" id="verdictIcon">🎉</div>
+        <div class="verdict-title-block">
+          <div class="verdict-title" id="verdictTitle">判定中…</div>
+          <div class="verdict-subtitle" id="verdictSubtitle">前回の四半期結果＋次の四半期予想を集計中</div>
+        </div>
+      </div>
+      <!-- 上段：前回の四半期（既発表の結果） -->
+      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:8px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">📋 前回の四半期（既発表の結果）</div>
+      <div class="verdict-duo">
+        <div class="verdict-check">
+          <div class="verdict-check-icon" id="verdictEpsIcon">?</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">① 前回の決算 EPS（予想 → 実績）</div>
+            <div class="verdict-check-value" id="verdictEpsVal">—</div>
+          </div>
+        </div>
+        <div class="verdict-check">
+          <div class="verdict-check-icon" id="verdictRevIcon">?</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">② 前回の売上（実績・前年比）</div>
+            <div class="verdict-check-value" id="verdictRevVal">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict-check verdict-wide">
+          <div class="verdict-check-icon" id="verdictPrevGuideIcon">📋</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">③ 会社見通し（次期・通年）</div>
+            <div class="verdict-check-value" id="verdictPrevGuideVal">—</div>
+          </div>
+        </div>
+      <div style="font-size:11px;font-weight:700;color:#0e2a82;margin:14px 0 6px;padding:6px 10px;background:rgba(255,255,255,0.7);border-radius:6px;display:inline-block">🔮 次の四半期（これから発表）</div>
+      <div class="verdict-duo">
+        <div class="verdict-check">
+          <div class="verdict-check-icon" id="verdictNextEpsIcon">🎯</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">④ 次の決算 EPS予想</div>
+            <div class="verdict-check-value" id="verdictNextEpsVal">—</div>
+          </div>
+        </div>
+        <div class="verdict-check">
+          <div class="verdict-check-icon" id="verdictNextRevIcon">🎯</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">⑤ 次の決算 売上予想</div>
+            <div class="verdict-check-value" id="verdictNextRevVal">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict-check verdict-wide">
+          <div class="verdict-check-icon" id="verdictNextGuideIcon">👀</div>
+          <div class="verdict-check-text">
+            <div class="verdict-check-label">⑥ 次の決算で見るポイント</div>
+            <div class="verdict-check-value" id="verdictNextGuideVal">—</div>
+          </div>
+        </div>
+      <div class="verdict-explanation" id="verdictExplanation">判定中…</div>
+      
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: 業界展望・企業ポジション ====== -->
+  <div data-tab="earnings" class="section" data-levels="b">
+    <div class="section-title">業界の動きと、この会社の立ち位置</div>
+    <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:12px">
+      決算の数字だけじゃなく、<strong>「この業界はそもそも伸びてる？」「この会社は業界の中で勝ってる？」</strong>を確認するセクション。
+      数字が良くても業界が縮小していれば未来は厳しいし、業界が伸びてても自社のポジションが弱ければ取り残されます。
+    </div>
+    <div class="ca-grid">
+      <div class="ca-card industry">
+        <div class="ca-header">
+          <div class="ca-icon">🌐</div>
+          <div class="ca-title-block">
+            <div class="ca-title">業界展望・成長の鍵となる動き</div>
+            <div class="ca-subtitle">市場が拡大しているか、業界トレンドにこの企業がついていけているか</div>
+          </div>
+        </div>
+        <div id="caIndustryBody">
+          <div style="color:var(--text-mute);font-size:12px">読み込み中…</div>
+        </div>
+      </div>
+      <div class="ca-card position">
+        <div class="ca-header">
+          <div class="ca-icon">🏆</div>
+          <div class="ca-title-block">
+            <div class="ca-title">企業ポジション・強み</div>
+            <div class="ca-subtitle">業界の中での立場、強みとなる技術や商品、将来を支える柱</div>
+          </div>
+        </div>
+        <div id="caPositionBody">
+          <div style="color:var(--text-mute);font-size:12px">読み込み中…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 売上構成（円グラフ） -->
+    <div class="ca-grid" style="margin-top: 16px">
+      <div class="ca-card position" style="grid-column: 1 / -1">
+        <div class="ca-header">
+          <div class="ca-icon">📊</div>
+          <div class="ca-title-block">
+            <div class="ca-title">売上構成（部門別の売上比率）</div>
+            <div class="ca-subtitle">どの事業で稼いでいるかを見ると、その会社の本業と将来性が見えてくる</div>
+          </div>
+        </div>
+        <div id="caSegmentBody">
+          <div style="color:var(--text-mute);font-size:12px">読み込み中…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: 4カテゴリ指標構造 ====== -->
+  <div data-tab="longterm" class="section" data-levels="b">
+    <div class="section-title">5つの指標で「この会社、健康か」を見る</div>
+    <div style="font-size:12px;color:var(--text-mute);line-height:1.7;margin-bottom:8px">
+      決算書は会社の<strong>「成績表」「健康診断書」</strong>。下の4つの観点（収益性・安全性・効率性・成長性）の5指標を順に見ていけば、その会社が稼げてるか・倒産しないか・将来伸びそうか、を整理して判断できます。
+    </div>
+
+    <!-- 収益性 -->
+    <div class="indicator-section">
+      <div class="indicator-cat-header profit">
+        <div class="indicator-cat-icon">📊</div>
+        <div class="indicator-cat-text">
+          <div class="indicator-cat-title">1. 収益性の指標：本業で稼ぐ力があるか</div>
+          <div class="indicator-cat-desc">企業が存続し、株価が上がるためには利益を出し続ける必要があります。</div>
+        </div>
+      </div>
+      <div class="indicator-grid">
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">営業利益</div>
+            <div class="indicator-badge" id="indProfitOpBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indProfitOpValue">—<span class="indicator-unit">M$</span></div>
+          <div class="indicator-yoy" id="indProfitOpYoY">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">四半期推移（直近12期）</div>
+            <canvas id="chartIndOpIncome"></canvas>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>前年同期比で増益（増加傾向）</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>本業のビジネスで得た利益。「稼ぐ力」を最も純粋に表す</div>
+            <div class="indicator-meta-row" id="indProfitOpVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">当期純利益（最終利益）</div>
+            <div class="indicator-badge" id="indProfitNiBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indProfitNiValue">—<span class="indicator-unit">M$</span></div>
+          <div class="indicator-yoy" id="indProfitNiYoY">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">四半期推移（直近12期）</div>
+            <canvas id="chartIndNetIncome"></canvas>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>プラスで安定していること</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>税金を全部払った後の最終的な儲け。配当の原資</div>
+            <div class="indicator-meta-row" id="indProfitNiVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 安全性 -->
+    <div class="indicator-section">
+      <div class="indicator-cat-header safety">
+        <div class="indicator-cat-icon">🛡️</div>
+        <div class="indicator-cat-text">
+          <div class="indicator-cat-title">2. 安全性の指標：倒産のリスクはないか</div>
+          <div class="indicator-cat-desc">どんなに利益が出ていても、資金繰りが行き詰まれば企業は倒産します。</div>
+        </div>
+      </div>
+      <div class="indicator-grid">
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">営業キャッシュフロー</div>
+            <div class="indicator-badge" id="indSafetyCfBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indSafetyCfValue">—<span class="indicator-unit">M$</span></div>
+          <div class="indicator-yoy" id="indSafetyCfSub">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">四半期営業CF推移（直近12期）</div>
+            <canvas id="chartIndOpCf"></canvas>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>プラスであること（直近4期連続プラスが理想）</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>本業から実際に入った現金。利益と違って現金そのものの動き</div>
+            <div class="indicator-meta-row" id="indSafetyCfVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">現金等残高（手元の体力）</div>
+            <div class="indicator-badge" id="indSafetyCashBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indSafetyCashValue">—<span class="indicator-unit">M$</span></div>
+          <div class="indicator-yoy" id="indSafetyCashSub">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">現金等残高の推移（直近16期）</div>
+            <canvas id="chartIndCash"></canvas>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>安定 or 増加傾向。前年比 -15%以内ならOK</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>会社が今すぐ使える現金。倒産しないかの体力指標</div>
+            <div class="indicator-meta-row" id="indSafetyCashVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 効率性 -->
+    <div class="indicator-section">
+      <div class="indicator-cat-header efficiency">
+        <div class="indicator-cat-icon">💎</div>
+        <div class="indicator-cat-text">
+          <div class="indicator-cat-title">3. 効率性の指標：お金をうまく使えているか</div>
+          <div class="indicator-cat-desc">株主から預かったお金をいかに効率よく利益に変えているかを評価します。</div>
+        </div>
+      </div>
+      <div class="indicator-grid">
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">ROE（自己資本利益率）</div>
+            <div class="indicator-badge" id="indEffRoeBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indEffRoeValue">—<span class="indicator-unit">%</span></div>
+          <div class="indicator-yoy" id="indEffRoeSub" style="background:transparent;padding:0;color:var(--text-mute);font-weight:500">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">通期ROE推移（直近10年）</div>
+            <canvas id="chartIndRoe"></canvas>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>10%以上が優良企業の目安</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>株主のお金を使ってどれだけ効率よく稼いだか。投資家にとって最重要</div>
+            <div class="indicator-meta-row" id="indEffRoeVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 成長性 -->
+    <div class="indicator-section">
+      <div class="indicator-cat-header growth">
+        <div class="indicator-cat-icon">📈</div>
+        <div class="indicator-cat-text">
+          <div class="indicator-cat-title">4. 成長性の指標：将来の伸びを期待できるか</div>
+          <div class="indicator-cat-desc">株価は「過去」よりも「未来」の数字に強く反応します。</div>
+        </div>
+      </div>
+      <div class="indicator-grid">
+        <div class="indicator-card">
+          <div class="indicator-card-head">
+            <div class="indicator-name">EPS（1株あたり純利益）</div>
+            <div class="indicator-badge" id="indGrowthEpsBadge">—</div>
+          </div>
+          <div class="indicator-value num" id="indGrowthEpsValue">$—</div>
+          <div class="indicator-yoy" id="indGrowthEpsSub" style="background:transparent;padding:0;color:var(--text-mute);font-weight:500">—</div>
+          <div class="indicator-mini-chart">
+            <div class="indicator-mini-chart-label">通期EPS推移（直近10年）</div>
+            <canvas id="chartIndEps"></canvas>
+          </div>
+          <div class="indicator-mini-chart" style="margin-top:10px">
+            <div class="indicator-mini-chart-label">年次成長率（前年比%・売上 vs 最終利益）</div>
+            <canvas id="chartIndGrowthRate"></canvas>
+          </div>
+          <div class="cagr-summary" id="indGrowthCagr">
+            <span class="cagr-label">📊 年平均成長率 (CAGR)：—</span>
+          </div>
+          <div class="indicator-meta">
+            <div class="indicator-meta-row"><strong>📍 指針：</strong>右肩上がりで継続して伸びていること</div>
+            <div class="indicator-meta-row"><strong>💡 なぜ見るか：</strong>1株あたりの利益が増えれば、株価も上がりやすい</div>
+            <div class="indicator-meta-row" id="indGrowthEpsVerdict"><strong>判定：</strong>—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="investment-notice" style="margin-top:24px">
+      <strong>📌 注意：</strong>
+      ここでは「決算データから読み取れる5指標」だけを表示しています。
+      実際の投資判断には、これに加えて<strong>株価指標（PER・PBR）・自己資本比率・次期業績ガイダンス</strong>などを別途確認する必要があります。
+    </div>
+  </div>
+
+  <!-- ====== KPIカード（中級者・上級者専用） ====== -->
+  <div data-tab="overview" class="section" data-levels="i a">
+    <div class="section-title" data-levels="b">直近の数字（<span id="sectionTitleBeginnerPeriod">2026年Q1</span>）</div>
+    <div class="section-title" data-levels="i a">直近四半期サマリー（<span id="sectionTitleIntPeriod">2026.Q1</span>）</div>
+    <div class="kpi-grid">
+      <div class="kpi-card revenue">
+        <div class="kpi-label">売上高 <span class="kpi-label-jp" data-levels="b">（売れた合計）</span></div>
+        <div class="kpi-value num" id="kpiRevValue">—<span class="kpi-unit">M$</span></div>
+        <div class="kpi-yoy" id="kpiRevYoY">—</div>
+        <div class="kpi-sub" id="kpiRevSub">—</div>
+        <div class="kpi-tip" data-levels="b" id="kpiRevTip"><strong>解説：</strong>会社が売ったモノ・サービスの合計金額。</div>
+      </div>
+      <div class="kpi-card opincome" data-levels="i a">
+        <div class="kpi-label">営業利益</div>
+        <div class="kpi-value num" id="kpiOpValue">—<span class="kpi-unit">M$</span></div>
+        <div class="kpi-yoy" id="kpiOpYoY">—</div>
+        <div class="kpi-sub" id="kpiOpSub">—</div>
+      </div>
+      <div class="kpi-card netincome">
+        <div class="kpi-label">最終利益 <span class="kpi-label-jp" data-levels="b">（手元に残った儲け）</span></div>
+        <div class="kpi-value num" id="kpiNiValue">—<span class="kpi-unit">M$</span></div>
+        <div class="kpi-yoy" id="kpiNiYoY">—</div>
+        <div class="kpi-sub" id="kpiNiSub">—</div>
+        <div class="kpi-tip" data-levels="b" id="kpiNiTip"><strong>解説：</strong>全部のコスト・税金を引いた最後に残るお金。</div>
+      </div>
+      <div class="kpi-card eps" data-levels="i a">
+        <div class="kpi-label">EPS（修正）</div>
+        <div class="kpi-value num" id="kpiEpsValue">—</div>
+        <div class="kpi-yoy" id="kpiEpsYoY">—</div>
+        <div class="kpi-sub" id="kpiEpsSub">—</div>
+      </div>
+      <!-- Beginner-only: 営業CF and 現金残高 -->
+      <div class="kpi-card" style="--accent: #10b981" data-levels="b">
+        <div class="kpi-label">営業キャッシュフロー <span class="kpi-label-jp">（実際に入った現金）</span></div>
+        <div class="kpi-value num" id="kpiOcfValue">—<span class="kpi-unit">M$</span></div>
+        <div class="kpi-yoy" id="kpiOcfYoY">—</div>
+        <div class="kpi-sub" id="kpiOcfSub">—</div>
+        <div class="kpi-tip" id="kpiOcfTip"><strong>解説：</strong>「会計上の利益」と違って、<strong>実際に銀行口座に入ってきた現金</strong>。これがプラスじゃないと長期的にはヤバい。</div>
+      </div>
+      <div class="kpi-card" style="--accent: #0891b2" data-levels="b">
+        <div class="kpi-label">現金等残高 <span class="kpi-label-jp">（会社の体力）</span></div>
+        <div class="kpi-value num" id="kpiCashValue">—<span class="kpi-unit">M$</span></div>
+        <div class="kpi-yoy" id="kpiCashYoY">—</div>
+        <div class="kpi-sub" id="kpiCashSub">—</div>
+        <div class="kpi-tip" id="kpiCashTip"><strong>解説：</strong>会社が今すぐ使える現金。<strong>倒産リスクはほぼ無し</strong>。</div>
+      </div>
+    </div>
+
+    <!-- Mini stats: intermediate+ -->
+    <div class="mini-grid" data-levels="i a">
+      <div class="mini-card">
+        <div class="mini-label" id="miniRevLabel">通期売上</div>
+        <div class="mini-value num" id="miniRevValue">—<span class="mini-unit">M$</span></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label" id="miniOpLabel">通期営業益</div>
+        <div class="mini-value num" id="miniOpValue">—<span class="mini-unit">M$</span></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">営業利益率 通期</div>
+        <div class="mini-value num" id="miniMarginValue">—<span class="mini-unit">%</span></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">ROE 通期</div>
+        <div class="mini-value num" id="miniRoeValue">—<span class="mini-unit">%</span></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">ROA 通期</div>
+        <div class="mini-value num" id="miniRoaValue">—<span class="mini-unit">%</span></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">現金等残高</div>
+        <div class="mini-value num" id="miniCashValue">—<span class="mini-unit">M$</span></div>
+      </div>
+    </div>
+
+    <!-- Advanced metrics row: advanced only -->
+    <div class="adv-grid" data-levels="a">
+      <div class="adv-card">
+        <div class="adv-label">直近1年 Revenue</div>
+        <div class="adv-value num" id="advTtmRev">—<span class="adv-unit">M$</span></div>
+        <div class="adv-note" id="advTtmRevNote">過去4Q合計</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">直近1年 Op Margin</div>
+        <div class="adv-value num" id="advTtmMargin">—<span class="adv-unit">%</span></div>
+        <div class="adv-note" id="advTtmMarginNote">直近1年営業益 / 直近1年売上</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">QoQ Revenue</div>
+        <div class="adv-value num" id="advQoq">—<span class="adv-unit">%</span></div>
+        <div class="adv-note" id="advQoqNote">前四半期比</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">Effective Tax</div>
+        <div class="adv-value num" id="advTax">—<span class="adv-unit">%</span></div>
+        <div class="adv-note" id="advTaxNote">税引前→最終益</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">CF Quality</div>
+        <div class="adv-value num" id="advCfQ">—<span class="adv-unit">x</span></div>
+        <div class="adv-note">営業CF / 最終益（直近1年）</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">FCF Yield</div>
+        <div class="adv-value num" id="advFcfYield">—<span class="adv-unit">M$</span></div>
+        <div class="adv-note">直近1年 フリーCF</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">Cash Position</div>
+        <div class="adv-value num" id="advCash">5,585<span class="adv-unit">M$</span></div>
+        <div class="adv-note">最新四半期末</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-label">Net Income Vol</div>
+        <div class="adv-value num" id="advVol">—<span class="adv-unit">%</span></div>
+        <div class="adv-note">直近8Q 標準偏差/平均</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== BEGINNER: 通期10年トレンド（最重要） ====== -->
+  <div data-tab="longterm" class="section" data-levels="b">
+    <div class="section-title">まずこれを見て：過去10年の長期トレンド</div>
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <div class="chart-title">通期 売上の推移（10年）</div>
+        <div class="chart-subtitle">右肩上がり＝成長中。停滞＝事業が育ってない。減少＝危険信号。</div>
+        <div class="chart-wrap"><canvas id="chartBeginnerRev10y"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> バーが左から右に向かって大きくなってればOK。赤い点線（トレンド線）が上向きなら長期的に成長してる。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> バーが連続して伸びてる／トレンド線より最近のバーが上にある（加速中）</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> バーが減ってる／トレンド線が水平・下向き／途中で減ってからずっと戻ってない</div></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">通期 最終利益の推移（10年）</div>
+        <div class="chart-subtitle">儲けも一緒に右肩上がりか？売上だけ伸びて利益が伸びへん会社は要注意。</div>
+        <div class="chart-wrap"><canvas id="chartBeginnerNi10y"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 紫バー＝黒字（儲かった年）、赤バー＝赤字（損した年）。売上チャートと連動して伸びてるかをチェック。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 紫バーが連続／最近のバーほど大きい／赤字（赤バー）が直近にない</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 赤バー（赤字）が複数年続く／売上は伸びてるのに利益は横ばい（コスト増要因あり）</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== INTERMEDIATE: 構造的収益力の現在地 ====== -->
+  <div data-tab="overview" class="section" data-levels="i a">
+    <div class="section-title">構造的収益力の現在地</div>
+    <div class="structural-tag" id="structuralTag">
+      <div class="structural-icon" id="structuralIcon">📈</div>
+      <div class="structural-text">
+        <div class="structural-label">Operating Margin Position</div>
+        <div class="structural-status" id="structuralStatus">—</div>
+        <div class="structural-detail" id="structuralDetail">—</div>
+      </div>
+      <div class="structural-meter">
+        <div class="structural-meter-label">復帰率</div>
+        <div class="structural-meter-value" id="structuralRatio">—%</div>
+        <div class="structural-meter-bar">
+          <div class="structural-meter-fill" id="structuralFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== INTERMEDIATE: 三層構造前年比 ====== -->
+  <div data-tab="earnings" class="section" data-levels="i a">
+    <div class="section-title">直近の四半期 三層構造の前年比（売上 → 営業益 → 最終益）</div>
+    <div class="layer-panel">
+      <div class="layer-flow">
+        <div class="layer-card revenue">
+          <div class="layer-label">売上高</div>
+          <div class="layer-value num" id="layerRevValue">—<span class="layer-unit">M$</span></div>
+          <div class="layer-yoy" id="layerRevYoY">—</div>
+          <div class="layer-note">トップライン</div>
+        </div>
+        <div class="layer-arrow">
+          <div class="layer-mult" id="layerMult1">×—</div>
+          <svg class="layer-arrow-svg" viewBox="0 0 100 14" preserveAspectRatio="none">
+            <line x1="0" y1="7" x2="86" y2="7" stroke="#475569" stroke-width="2"/>
+            <polygon points="84,2 96,7 84,12" fill="#475569"/>
+          </svg>
+        </div>
+        <div class="layer-card opincome">
+          <div class="layer-label">営業利益</div>
+          <div class="layer-value num" id="layerOpValue">—<span class="layer-unit">M$</span></div>
+          <div class="layer-yoy" id="layerOpYoY">—</div>
+          <div class="layer-note">営業レバレッジ</div>
+        </div>
+        <div class="layer-arrow">
+          <div class="layer-mult" id="layerMult2">×—</div>
+          <svg class="layer-arrow-svg" viewBox="0 0 100 14" preserveAspectRatio="none">
+            <line x1="0" y1="7" x2="86" y2="7" stroke="#475569" stroke-width="2"/>
+            <polygon points="84,2 96,7 84,12" fill="#475569"/>
+          </svg>
+        </div>
+        <div class="layer-card netincome">
+          <div class="layer-label">最終利益</div>
+          <div class="layer-value num" id="layerNiValue">—<span class="layer-unit">M$</span></div>
+          <div class="layer-yoy" id="layerNiYoY">—</div>
+          <div class="layer-note">税・営業外要因</div>
+        </div>
+      </div>
+      <div class="layer-insight" id="layerInsight">読み込み中…</div>
+    </div>
+  </div>
+
+  <!-- ====== Narrative ====== -->
+  <div data-tab="earnings" class="section">
+    <!-- Beginner narrative -->
+    <div class="narrative beginner" data-levels="b" id="narrativeBeginner">読み込み中…</div>
+    <!-- Intermediate narrative -->
+    <div class="narrative" data-levels="i" id="narrativeIntermediate">読み込み中…</div>
+    <!-- Advanced narrative -->
+    <div class="narrative adv" data-levels="a" id="narrativeAdvanced">読み込み中…</div>
+  </div>
+
+  <!-- ====== 今期の決算分析（全モード共通4カード） ====== -->
+  <div data-tab="earnings" class="section">
+    <div class="section-title">今期の決算分析（<span id="analysisSectionPeriod">2026年Q1</span>）</div>
+    <div class="analysis-grid">
+
+      <!-- Card 1: 注目点 -->
+      <div class="analysis-card focus">
+        <div class="analysis-header">🎯 今期の注目点</div>
+        <ul class="analysis-list beginner" data-levels="b" id="analysisFocusB"></ul>
+        <ul class="analysis-list" data-levels="i" id="analysisFocusI"></ul>
+        <ul class="analysis-list advanced" data-levels="a" id="analysisFocusA"></ul>
+      </div>
+
+      <!-- Card 2: 良い点 -->
+      <div class="analysis-card good">
+        <div class="analysis-header">✅ 良い点・ポジティブ要因</div>
+        <ul class="analysis-list beginner" data-levels="b" id="analysisGoodB"></ul>
+        <ul class="analysis-list" data-levels="i" id="analysisGoodI"></ul>
+        <ul class="analysis-list advanced" data-levels="a" id="analysisGoodA"></ul>
+      </div>
+
+      <!-- Card 3: 悪い点 -->
+      <div class="analysis-card concern">
+        <div class="analysis-header">⚠️ 悪い点・気になる点</div>
+        <ul class="analysis-list beginner" data-levels="b" id="analysisConcernB"></ul>
+        <ul class="analysis-list" data-levels="i" id="analysisConcernI"></ul>
+        <ul class="analysis-list advanced" data-levels="a" id="analysisConcernA"></ul>
+      </div>
+
+      <!-- Card 4: 次回の見どころ -->
+      <div class="analysis-card next">
+        <div class="analysis-header">🔮 <span id="analysisNextHeader">次回の見どころ</span></div>
+        <ul class="analysis-list beginner" data-levels="b" id="analysisNextB"></ul>
+        <ul class="analysis-list" data-levels="i" id="analysisNextI"></ul>
+        <ul class="analysis-list advanced" data-levels="a" id="analysisNextA"></ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== Quarterly trends ====== -->
+  <div data-tab="earnings" class="section" data-levels="i a">
+    <div class="section-title" data-levels="b">売上の伸び（過去12四半期）</div>
+    <div class="section-title" data-levels="i a">四半期業績トレンド（直近16期）</div>
+    <div class="chart-grid-2">
+      <div class="chart-card" data-levels="i a">
+        <div class="chart-title">売上高 × 営業利益</div>
+        <div class="chart-subtitle">Quarterly Revenue & Operating Income — M$</div>
+        <div class="chart-wrap"><canvas id="chartQuarterlyRevenue"></canvas></div>
+        <div class="chart-hint" data-levels="i a">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 青バー＝四半期売上、黄色線＝営業益（左軸）、<strong>濃紺の点線＝直近1年売上</strong>（右軸、過去4Q合計＝年率換算）。直近1年線は季節性を均した「本当の年間規模」。半導体は季節性業種なので直近1年で勢いを判断するのが基本。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 直近1年線が右上がり加速／営業益が売上以上の倍率で伸びる（営業レバレッジ効いてる）／直近の四半期×4 が直近1年を上回る（加速中）</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 売上だけ伸びて営業益が伸びない（コスト増要因）／直近1年線が水平〜下向き／直近の四半期×4 が直近1年を下回る（減速中）</div></div>
+        </div>
+      </div>
+      <div class="chart-card" data-levels="i a">
+        <div class="chart-title">EPS × 最終利益</div>
+        <div class="chart-subtitle">Adjusted EPS ($) & Net Income (M$)</div>
+        <div class="chart-wrap"><canvas id="chartQuarterlyEps"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 紫バー＝Q最終益（M$）、ピンク線＝Q EPS（$）、<strong>濃紺の点線＝直近1年 EPS</strong>（過去4Q合計＝年率換算EPS）。直近1年 EPSは1年分の利益を示すので、株価との比較に直接使える。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 直近1年 EPS線が右上がり加速／QのEPSと直近1年が両方上昇／Q×4 が直近1年上回る（加速中）</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> EPSだけ上がって最終益が伸びない（自社株買い効果のみ）／直近1年 EPSが減少傾向</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Long-term annual: 10y for intermediate ====== -->
+  <div data-tab="longterm" class="section" data-levels="i">
+    <div class="section-title">通期業績の長期推移（直近10年）</div>
+    <div class="chart-card full">
+      <div class="chart-title">通期売上高 × 通期営業利益</div>
+      <div class="chart-subtitle">Annual Revenue & Operating Income — M$. 直近10年で構造的成長を判定（経営者交代以前のノイズは除外）</div>
+      <div class="chart-wrap tall"><canvas id="chartAnnualRevenue10"></canvas></div>
+      <div class="chart-hint">
+        <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 直近10年に絞って表示。事業構造変化や経営陣交代を跨ぐと長期トレンドが見えにくくなるため、現体制の下での業績軌道を読む。赤い点線がトレンド線。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 売上バーが連続して伸びている／営業益（黄色）が安定プラス／直近バーがトレンド線より上（加速局面）</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 売上が停滞／営業益が頻繁にマイナス／直近バーがトレンド線より下（減速）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Long-term annual: 35y for advanced ====== -->
+  <div data-tab="longterm" class="section" data-levels="a">
+    <div class="section-title">長期推移（<span id="longTermRange">1991〜2025、35年フル</span>）</div>
+    <div class="chart-card full">
+      <div class="chart-title">通期売上高 × 通期営業利益</div>
+      <div class="chart-subtitle">Annual Revenue & Operating Income — M$. <span id="longTermSubtitle">35年史</span></div>
+      <div class="chart-wrap tall"><canvas id="chartAnnualRevenue35"></canvas></div>
+      <div class="chart-hint">
+        <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 35年スパンで会社の盛衰を俯瞰。経営陣の交代、事業転換、技術革新の影響が全部見える。赤い点線が35年の構造的トレンド。</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 直近10年が明確に右肩上がり／営業益（黄色）が安定的にプラス／トレンド線より直近バーが上にある</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 過去ピークから長期低迷／営業益が頻繁にマイナス／業界構造変化に追随できていない</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Profitability: intermediate (10y) ====== -->
+  <div data-tab="longterm" class="section" data-levels="i">
+    <div class="section-title">収益性指標（直近10年）</div>
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <div class="chart-title">営業利益率の推移</div>
+        <div class="chart-subtitle">Operating Margin (%) — 直近10年。構造的収益力の方向性を判定</div>
+        <div class="chart-wrap"><canvas id="chartMargin10"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 構造的な収益力の方向。<strong>過去ピーク</strong>（最高値）と<strong>現在地</strong>を比較し「ピーク圏／回復途上／構造劣化」を判定。濃紺の点線が10年トレンド線。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 直近トレンドが上向き／過去ピークに接近／長期的に底上げされている</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 過去ピーク後にずっと低位／マイナス圏が続く／戻る兆候がない</div></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">ROE × ROA</div>
+        <div class="chart-subtitle">直近10年。極端値は省略</div>
+        <div class="chart-wrap"><canvas id="chartRoe10"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 紫＝ROE（株主資本の収益率）、緑＝ROA（総資産の収益率）。<strong>2つの差が「財務レバレッジ」</strong>＝借金をどれだけ使ってるか。両方上昇なら本物の効率改善。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> ROE・ROAともに右上がり／両者の差が縮まる（借金依存度低下）／ROA 5%超で安定</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> ROEだけ高くROAは低い（借金で見せかけ）／両方下降／ROAがマイナス</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== ADVANCED: ROEデュポン分解 ====== -->
+  <div data-tab="longterm" class="section" data-levels="a">
+    <div class="section-title">ROE デュポン分解（純利益率 × 総資産回転率 × 財務レバレッジ）</div>
+    <div class="dupont-card">
+      <div class="dupont-formula">
+        <div class="dupont-term npm">
+          <div class="term-label">純利益率</div>
+          <div class="term-value" id="dupontNpm">—</div>
+        </div>
+        <div class="dupont-op">×</div>
+        <div class="dupont-term at">
+          <div class="term-label">総資産回転率</div>
+          <div class="term-value" id="dupontAt">—</div>
+        </div>
+        <div class="dupont-op">×</div>
+        <div class="dupont-term fl">
+          <div class="term-label">財務レバレッジ</div>
+          <div class="term-value" id="dupontFl">—</div>
+        </div>
+        <div class="dupont-op">=</div>
+        <div class="dupont-term result">
+          <div class="term-label">ROE</div>
+          <div class="term-value" id="dupontRoe">—</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:320px;"><canvas id="chartDupont"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ====== ADVANCED: ピーク水準復帰シナリオ ====== -->
+  <div data-tab="longterm" class="section" data-levels="a">
+    <div class="section-title">ピーク水準復帰シナリオ（上振れ余地の定量化）</div>
+    <div class="scenario-card">
+      <div style="font-size:13px;color:var(--text-mute);line-height:1.6;">
+        過去ピーク利益率局面と現状の財務構造を比較。<strong>売上を維持したまま利益率がピークに戻った場合</strong>のシナリオを定量化し、モデルの上振れ余地を把握。
+      </div>
+      <table class="scenario-table" id="scenarioTable">
+        <thead>
+          <tr>
+            <th>指標</th>
+            <th class="col-peak">過去ピーク</th>
+            <th class="col-current">現状</th>
+            <th class="col-target">復帰シナリオ</th>
+            <th>余地</th>
+          </tr>
+        </thead>
+        <tbody id="scenarioTbody"></tbody>
+      </table>
+      <div class="scenario-conclusion" id="scenarioConclusion">読み込み中…</div>
+    </div>
+  </div>
+
+  <!-- ====== Profitability: advanced (35y / 15y) ====== -->
+  <div data-tab="longterm" class="section" data-levels="a">
+    <div class="section-title">収益性指標（長期フル）</div>
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <div class="chart-title">営業利益率の長期推移</div>
+        <div class="chart-subtitle">Operating Margin (%) — <span id="marginLongRange">1991〜2025</span></div>
+        <div class="chart-wrap"><canvas id="chartMargin"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 35年スパンの構造的収益力。<strong>過去ピーク</strong>と<strong>現在地</strong>を比較。経営陣交代や技術革新の影響も込みで見える。濃紺の点線が35年トレンド線。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 直近トレンドが上向き／過去ピークに接近／長期的に底上げ</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 過去ピーク後にずっと低位／マイナス圏が続く／戻る兆候がない</div></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">ROE × ROA</div>
+        <div class="chart-subtitle">直近15年。極端値（2008/2015/2016）は省略</div>
+        <div class="chart-wrap"><canvas id="chartRoe"></canvas></div>
+        <div class="chart-hint">
+          <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 紫＝ROE、緑＝ROA。2つの差が財務レバレッジ。両方上昇なら本物の効率改善。</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> ROE・ROAともに右上がり／両者の差が縮まる／ROA 5%超で安定</div></div>
+          <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> ROEだけ高くROAは低い／両方下降／ROAがマイナス</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== INTERMEDIATE: 営業益 vs 営業CF 乖離 ====== -->
+  <div data-tab="longterm" class="section" data-levels="i a">
+    <div class="section-title">利益の質：営業益 vs 営業CF の乖離（直近16期）</div>
+    <div class="chart-card full">
+      <div class="chart-title">営業利益と営業CFの推移、および差分</div>
+      <div class="chart-subtitle">緑バー（差分プラス）= 営業CFが営業益を上回る = 良質な利益 / 赤バー = 利益と現金の乖離 = 要警戒</div>
+      <div class="legend-chips">
+        <span class="legend-chip"><span class="legend-dot" style="background:#f59e0b"></span>営業利益</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:#10b981"></span>営業CF</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:#86efac"></span>差分（CF−利益、プラス=質高い）</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartCfDiff"></canvas></div>
+      <div class="chart-hint">
+        <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> 茶色線＝営業利益（会計上）、緑線＝営業CF（実際の現金）、バー＝差分。<strong>緑バー</strong>＝CFが利益を上回る＝<strong>質の高い利益</strong>。<strong>赤バー</strong>＝利益が現金化されてない＝<strong>要警戒</strong>。</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 緑バーが連続／CF倍率（CF÷利益）が1倍超で安定／2線がほぼ重なる、あるいはCF線が利益線の上を走る</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 赤バーが連続（売掛金膨張・棚卸資産増加など）／利益はプラスなのにCFがマイナス／2線の乖離が拡大方向</div></div>
+      </div>
+      <div class="layer-insight" id="cfDiffInsight" style="margin-top:12px">読み込み中…</div>
+    </div>
+  </div>
+
+  <!-- ====== Cash Flow ====== -->
+  <div data-tab="longterm" class="section" data-levels="i a">
+    <div class="section-title">キャッシュフロー</div>
+    <div class="chart-card full">
+      <div class="chart-title">CF構造（営業 / 投資 / 財務）と現金残高</div>
+      <div class="chart-subtitle">Annual Cash Flow Components — M$</div>
+      <div class="legend-chips">
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--cf-op)"></span>営業CF</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--cf-inv)"></span>投資CF</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--cf-fin)"></span>財務CF</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--cash);border-radius:50%"></span>現金等残高（折線）</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartCashflow"></canvas></div>
+      <div class="chart-hint">
+        <div class="chart-hint-row"><span class="hint-icon">📖</span><div class="body"><strong>見方:</strong> <strong>緑（営業CF）プラス</strong>＝本業で現金生成中、<strong>赤（投資CF）マイナス</strong>＝設備投資・買収（成長企業ほど大きく出る）、<strong>青（財務CF）マイナス</strong>＝株主還元or借入返済、<strong>水色折線</strong>＝現金残高の推移。</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">✅</span><div class="body"><strong>良いサイン:</strong> 営業CFがコンスタントにプラス／現金残高が増加トレンド／投資CFが大きくマイナス（積極投資）の年でも現金残高が減らない</div></div>
+        <div class="chart-hint-row"><span class="hint-icon">⚠️</span><div class="body"><strong>注意サイン:</strong> 営業CFがマイナス連続（本業で稼げてない）／現金残高が急減／財務CFが大きくプラス（借金で延命中）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Latest quarters table ====== -->
+  <div data-tab="earnings" class="section" data-levels="i a">
+    <div class="section-title" data-levels="b">直近4四半期の数字</div>
+    <div class="section-title" data-levels="i a">直近8四半期 詳細データ</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>決算期</th>
+            <th>売上高</th>
+            <th data-levels="i a">営業益</th>
+            <th data-levels="i a">税引前益</th>
+            <th>最終益</th>
+            <th data-levels="i a">EPS</th>
+            <th data-levels="i a">営業利益率</th>
+            <th data-levels="a">QoQ売上</th>
+            <th data-levels="a">実効税率</th>
+            <th>発表日</th>
+          </tr>
+        </thead>
+        <tbody id="latestQuartersTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== Metric explorer ====== -->
+  <div data-tab="explore" class="section">
+    <div class="section-title">🔍 気になる数字を全期間さかのぼる</div>
+    <p class="me-hint">指標を選ぶと、この会社の持っている全期間のデータをグラフと表で確認できます。</p>
+    <div class="me-controls">
+      <div class="me-chips" id="meChips"></div>
+      <div class="me-toggle" id="meToggle">
+        <button type="button" data-mode="q" class="active">四半期</button>
+        <button type="button" data-mode="a">通期（年度）</button>
+      </div>
+    </div>
+    <div class="me-desc" id="meDesc"></div>
+    <div class="chart-wrap tall"><canvas id="chartMetricExplorer"></canvas></div>
+    <div class="table-card" style="margin-top: 14px;">
+      <div class="table-card-inner me-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>決算期</th>
+              <th id="meTableValueHead">売上高</th>
+              <th id="meTableYoyHead">前年同期比</th>
+            </tr>
+          </thead>
+          <tbody id="meTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Ranking ====== -->
+  <div data-tab="explore" class="section">
+    <div class="section-title">🏆 全銘柄ランキング（111社をソートして比較）</div>
+    <p class="me-hint">列の見出しをクリックすると、その指標の大きい順／小さい順に並び替えできます。行をクリックするとその銘柄のページに切り替わります。</p>
+    <div class="me-controls">
+      <div></div>
+      <div class="me-toggle" id="rankToggle">
+        <button type="button" data-mode="q" class="active">四半期（直近）</button>
+        <button type="button" data-mode="a">通期（直近年度）</button>
+        <button type="button" data-mode="h5">過去5年</button>
+        <button type="button" data-mode="h10">過去10年</button>
+        <button type="button" data-mode="h">全期間</button>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="table-card-inner rank-wrap">
+        <table id="rankTable">
+          <thead><tr id="rankHead"></tr></thead>
+          <tbody id="rankTbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="rank-note">単位: 金額はM$（百万ドル）、EPSは$、率は%。「—」はデータなし。銘柄ごとに決算月が違うため、決算期の時点は揃っていません。⚠️ <strong>PDDは人民元、ASMLはユーロ建て</strong>のため、金額をドル銘柄と直接比較しないでください（率系の指標は比較OK）。<strong>🏅総合</strong>＝主要指標（売上・成長率・利益・利益率・CF・現金、通期はROE/ROAも）それぞれの順位の平均。<strong>小さいほど総合上位</strong>＝優良。投資CF・財務CF・EPSは平均に含めません。※印（PDD/ASML）は率系指標のみで計算。<strong>過去5年・過去10年・全期間</strong>＝四半期ごと（ROE/ROAは年度ごと）に111社中の順位を出し、その期間ぶん平均した「平均順位」。数字はすべて111社換算の順位で、<strong>小さいほど昔から一貫して上位</strong>。上場が新しい会社はデータがある期間だけで計算（期間列参照）。</p>
+  </div>
+
+  <!-- ====== Full data tables ====== -->
+  <div data-tab="explore" class="section" data-levels="i a">
+    <div class="section-title">全データ</div>
+
+    <details open>
+      <summary>四半期決算データ（全<span id="fullQuarterlyCount">49</span>期）</summary>
+      <div class="table-card">
+        <div class="table-card-inner">
+          <table id="fullQuarterlyTable">
+            <thead>
+              <tr>
+                <th>決算期</th>
+                <th>売上高</th>
+                <th>営業益</th>
+                <th>税引前益</th>
+                <th>最終益</th>
+                <th>EPS</th>
+                <th>配当</th>
+                <th>発表日</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>四半期キャッシュフロー（全<span id="fullCfQuarterlyCount">49</span>期）</summary>
+      <div class="table-card">
+        <div class="table-card-inner">
+          <table id="fullCfQuarterlyTable">
+            <thead>
+              <tr>
+                <th>決算期</th>
+                <th>営業益</th>
+                <th>フリーCF</th>
+                <th>営業CF</th>
+                <th>投資CF</th>
+                <th>財務CF</th>
+                <th>現金残高</th>
+                <th>現金比率</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>通期業績データ（<span id="fullAnnualRange">1991〜2025、35年</span>）</summary>
+      <div class="table-card">
+        <div class="table-card-inner">
+          <table id="fullAnnualTable">
+            <thead>
+              <tr>
+                <th>決算期</th>
+                <th>売上高</th>
+                <th>営業益</th>
+                <th>営業利益率</th>
+                <th>ROE</th>
+                <th>ROA</th>
+                <th data-levels="a">総資産回転率</th>
+                <th>EPS</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details data-levels="a">
+      <summary>通期キャッシュフロー（<span id="fullCfAnnualRange">1991〜2025</span>）</summary>
+      <div class="table-card">
+        <div class="table-card-inner">
+          <table id="fullCfAnnualTable">
+            <thead>
+              <tr>
+                <th>決算期</th>
+                <th>営業益</th>
+                <th>フリーCF</th>
+                <th>営業CF</th>
+                <th>投資CF</th>
+                <th>財務CF</th>
+                <th>現金残高</th>
+                <th>現金比率</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+
+
+</div>
+
+
+<script>window.PAGE_TICKER="SHOP";window.V2_NAV="../";try{if(localStorage.getItem("amd_dash_tab")==="explore")localStorage.setItem("amd_dash_tab","overview");}catch(e){}window.__DATA__={"ALL_TICKERS_DATA":{"SHOP":{"quarterly":[["2015.03",37,-3,46,-4,-0.01,0,"2015-05-21"],["2016.03",72,-9,83,-8,-0.01,0,"2016-05-04"],["2018.09",270,-31,-23,-23,-0.02,0,"2019-10-25"],["2018.12",343,-9,-1,-1,0,0,"2019-02-12"],["2019.03",320,-35,-24,-24,-0.02,0,"2019-04-30"],["2019.06",361,-39,-28,-28,-0.03,0,"2019-08-01"],["2019.09",390,-35,-24,-72,-0.06,0,"2019-10-29"],["2019.12",505,-30,-18,0,0,0,"2020-02-12"],["2020.03",470,-73,60,-31,-0.03,0,"2020-05-06"],["2020.06",714,0,4,36,0.03,0,"2020-07-29"],["2020.09",767,50,186,191,0.15,0,"2020-10-29"],["2020.12",977,112,109,123,0.1,0,"2021-02-17"],["2021.03",988,118,1369,1258,0.99,0,"2021-04-28"],["2021.06",1119,139,919,879,0.69,0,"2021-07-28"],["2021.09",1123,-4,1340,1148,0.9,0,"2021-10-28"],["2021.12",1380,14,-488,-371,-0.3,0,"2022-02-16"],["2022.03",1203,-97,-1652,-1474,-1.17,0,"2022-05-05"],["2022.06",1295,-190,-1198,-1203,-0.95,0,"2022-07-27"],["2022.09",1366,-345,-157,-158,-0.12,0,"2022-10-27"],["2022.12",1734,-188,-614,-623,-0.49,0,"2023-02-15"],["2023.03",1508,-193,76,68,0.05,0,"2023-05-04"],["2023.06",1694,-1636,-1301,-1311,-1.02,0,"2023-08-03"],["2023.09",1714,122,728,718,0.55,0,"2023-11-02"],["2023.12",2144,289,682,657,0.51,0,"2024-02-13"],["2024.03",1861,86,-256,-273,-0.21,0,"2024-05-08"],["2025.03",2360,203,-770,-682,-0.53,0,"2025-05-08"],["2025.06",2680,291,1079,906,0.69,0,"2025-08-06"],["2025.09",2844,343,308,264,0.2,0,"2025-11-04"],["2025.12",3672,631,892,743,0.57,0,"2026-02-11"],["2026.03",3170,382,-634,-581,-0.45,0,"2026-05-05"]],"cfQuarterly":[["2014.12",-4,-3,4,-7,0,41.95,2.27],["2015.03",-3,5,3,1,0,46.15,2.11],["2015.06",-3,-35,6,-42,136,146.67,1.62],["2015.09",-4,-30,0,-31,0,115.32,2.04],["2015.12",-6,-6,4,-11,1,110.07,2.21],["2016.03",-9,-28,0,-28,0,83.86,2.92],["2016.06",-8,-16,5,-22,0,68.14,3.69],["2016.09",-9,-106,1,-107,225,187.36,2.6],["2016.12",-9,-104,6,-110,0,84.01,5.84],["2017.03",-14,14,4,10,2,101.27,4.95],["2017.06",-15,-466,-8,-457,564,199.4,5.4],["2017.09",-12,-84,-6,-77,3,119.85,9.19],["2017.12",-6,17,19,-1,4,141.68,7.86],["2018.03",-20,-598,-1,-596,653,196.58,9.07],["2018.06",-30,14,0,15,9,219.8,8.23],["2018.09",-31,17,2,15,6,243.42,7.57],["2018.12",-9,-235,9,-244,402,410.68,5.49],["2019.03",-35,-12,24,-37,12,410.45,5.85],["2019.06",-39,242,23,218,15,668.99,3.69],["2019.09",-35,-240,-29,-211,697,1124.53,2.84],["2019.12",-30,-487,52,-539,11,649.92,5.37],["2020.03",-73,315,-84,400,19,969.36,3.58],["2020.06",0,-571,165,-737,1479,1882.36,2.71],["2020.09",50,-834,99,-933,2038,3089.88,2.41],["2020.12",112,-415,245,-661,20,2703.6,2.87],["2021.03",118,-1482,135,-1618,1564,2785.57,3.89],["2021.06",139,-442,66,-508,20,2364.67,5.06],["2021.09",-4,-198,41,-240,29,2189.61,6.18],["2021.12",14,280,260,20,36,2502.99,5.33],["2022.03",-97,-57,-53,-4,6,2451.55,4.83],["2022.06",-190,908,-124,1032,1,3350.78,3.21],["2022.09",-345,-1962,-214,-1748,3,1378.25,8.13],["2022.12",-188,257,255,2,6,1649.33,6.52],["2023.03",-193,81,100,-19,6,1738,6.31],["2023.06",-1636,-155,118,-273,26,1611,6.02],["2023.09",122,-328,278,-606,11,1287,8.13],["2023.12",289,102,448,-346,17,1413,8],["2024.03",86,211,238,-27,3,1623,6.85],["2025.03",203,-252,367,-619,59,1309,10.24],["2025.06",291,176,428,-252,44,1542,9.44],["2025.09",343,848,513,335,24,2414,6.23],["2025.12",631,71,725,-654,-938,1545,9.83],["2026.03",382,791,481,310,-485,1848,7.64]],"annual":[["2014.12",105,-21,-20.59,-32.94,-23.44,1.1,-0.06],["2015.12",205,-17,-8.65,-14.29,-7.71,1.21,-0.03],["2016.12",389,-37,-9.55,-11.67,-7.21,1.06,-0.04],["2017.12",673,-49,-7.3,-5.67,-3.59,0.84,-0.04],["2018.12",1073,-91,-8.56,-4.18,-2.86,0.64,-0.06],["2019.12",1578,-141,-8.94,-4.89,-3.58,0.55,-0.11],["2020.12",2929,90,3.08,6.79,4.12,0.52,0.26],["2021.12",4611,268,5.82,33.25,21.85,0.44,2.29],["2022.12",5599,-822,-14.68,-35.73,-32.17,0.46,-2.73],["2023.12",7060,-1418,-20.08,1.53,1.17,0.64,0.1],["2025.12",11556,1468,12.7,9.14,8.1,0.76,0.94]],"cfAnnual":[["2014.12",-21,-41,0,-40,0,41.95,2.27],["2015.12",-17,-68,15,-83,137,110.07,2.21],["2016.12",-37,-255,14,-269,228,84.01,5.84],["2017.12",-49,-519,7,-527,574,141.68,7.86],["2018.12",-91,-801,9,-810,1072,410.68,5.49],["2019.12",-141,-498,70,-569,736,649.92,5.37],["2020.12",90,-1506,424,-1931,3557,2703.6,2.87],["2021.12",268,-1843,504,-2347,1649,2502.99,5.33],["2022.12",-822,-855,-136,-718,17,1649.33,6.52],["2023.12",-1418,-300,944,-1244,60,1413,8],["2024.12",1075,30,1616,-1586,61,1498,0],["2025.12",1468,843,2033,-1190,-811,1545,9.83]]}},"EPS_HISTORY":{"SHOP":[["6/30/2025",0.29,0.35,22.2],["9/30/2025",0.34,0.34,0.6],["12/31/2025",0.51,0.48,-5.7],["3/31/2026",0.33,0.36,8.6]]},"CONSENSUS_DATA":{"SHOP":{"fyRevenueForecast":14.94,"fyRevenuePrior":11.56,"fyRevenueGrowth":29.3,"fyEpsForecast":1.85,"fyEpsPrior":0.94,"fyEpsGrowth":96.5,"nextYearRevenueForecast":18.48,"nextYearEpsForecast":2.37,"analystCount":32,"analystRating":"Buy","priceTargetAvg":163.63,"priceTargetLow":105,"priceTargetHigh":200,"priceTargetUpside":26.49,"strongBuy":7,"buy":18,"hold":8,"sell":0,"strongSell":0}},"EPS_FCAST":{"SHOP":{"nQEps":0.39755,"nQEpsLow":0.3,"nQEpsHigh":0.47,"nQEpsAn":33,"nQEpsGrw":0.1359,"nQEpsYAgo":0.35,"cYEps":1.83654,"cYEpsGrw":0.2843,"cYEpsAn":40,"nYEps":2.3318,"nYEpsGrw":0.2697}},"REVENUE_DATA":{"SHOP":{"nextQ":{"est":3441175770,"end":"2026-08-06","grw":0.284,"yAgo":2680000000,"an":38},"nFY":{"est":14797385010,"end":null,"grw":0.2805},"past":[["2Q2025",2680000000],["3Q2025",2844000000],["4Q2025",3672000000],["1Q2026",3170000000]]}},"COMPANY_GUIDANCE":{"SHOP":{"url":"https://www.fool.com/earnings/call-transcripts/2026/05/05/shopify-shop-q1-2026-earnings-transcript/","date":"2026-05-05","summary":{"nextQ":{"label":"翌期(Q2 2026)","items":["売上: 前年比 高20%台（high-twenties%）の成長","粗利益（金額ベース）: 前年比 中20%台（mid-twenties%）の成長","営業費用: 売上の35〜36%","株式報酬費用（SBC）: $145M","フリーキャッシュフロー・マージン: 中10%台（mid-teens）"],"plain":"次の四半期（2026年4-6月期）は、売上を前年比で「高20%台（おおむね+27〜29%）」伸ばす見込み。粗利益（売上から原価を引いた儲け）も金額ベースで前年比「中20%台」増。営業費用は売上の35〜36%、株式で社員に払う報酬（SBC）は$145M（約220億円）、手元に残る現金の割合（フリーCFマージン）は「中10%台」を見込みます。"},"fullYear":{"label":"通年(2026年)","items":[],"plain":"通年（2026年）の数値ガイダンスは明示なし。Shopifyは四半期ごとの見通しのみを出す方針で、通年の売上・利益の数字は示していません。経営陣は『2026年を通じてAI時代の優位性が複利的に効いてくる』と述べるにとどめています。"},"highlights":["四半期GMV（流通取引総額）が初めて$100B（約15兆円）を突破（$100.7B、前年比+35%）","四半期売上$3.17B（約4,760億円、前年比+34%）で9期連続の30%超成長を継続","AI活用ツールの普及が来店数・注文数を押し上げと説明、フリーCFマージンは15%を維持"],"highlightsPlain":"ハイライト：①お店を通じて取引された金額の合計（GMV）が四半期で初めて$100B（約15兆円）を超え前年比+35%／②四半期売上は$3.17B（約4,760億円、+34%）で9四半期連続の30%超成長／③AIを使った販売支援ツールの普及が客足と注文を増やし、本業で稼ぐ現金の割合（フリーCFマージン）は15%を維持。"},"verdict":"良い","verdictReason":"Q1売上+34%・GMV初の$100B超で9期連続30%成長、Q2も売上高20%台成長を見込む堅調なガイダンス","guidanceDirection":{"nextQ":"据え置き","fullYear":"言及なし","overall":"据え置き"}}},"EARNINGS_DATES":{"SHOP":{"next":"2026-08-05","past":[{"q":"2Q2025","d":"2025-08-06"},{"q":"3Q2025","d":"2025-11-04"},{"q":"4Q2025","d":"2026-02-11"},{"q":"1Q2026","d":"2026-05-05"}]}},"STOCK_PRICES":{"SHOP":{"s":"2025-06-02","e":"2026-06-03","c":[111.41,105.34,106.4,113.65,116.52,112.11,127.07,124.43,118.6,149.61,141.47,142.11,141.28,146.82,143.38,153.3,140.25,161.14,151.02,157.76,172.95,173.86,152.41,146.04,147.8,158.64,161.08,164.19,169.57,170.83,157.2,164.48,155.81,137.89,131.23,112.05,112.7,126.2,120.73,130.2,122.96,116.78,111.85,118.25,110.79,131.15,125.83,127.67,110.41,100.28,103,118.71,112.94,112.94]}},"COMPANY_ANALYSIS":{"SHOP":{"industry_fit":"中小事業者向けEC（ネット通販）プラットフォームの世界的リーダー。Amazonがモールでモノを売るのに対し、Shopifyは「お店を作る道具」を売る黒子の立場。コロナ後のEC鈍化を抜け、2024年以降は売上30%成長を9四半期連続で維持し、AI機能の追加で再加速局面にある。","position":"世界175ヵ国超で数百万の事業者が使うECの基盤企業。年間売上は約$115億（約1.7兆円、2025年）、流通取引総額（GMV）は四半期で初の$100B超。営業利益率〈本業で稼ぐ利益の割合〉は13%前後まで改善したが、PER（株価収益率）は100倍超・予想PERでも70倍と将来の成長を強く織り込んだ高評価銘柄。","strengths":["圧倒的なEC基盤シェア — 中小事業者向けECで世界トップ級、米国のオンライン小売の主要なインフラ","取引が増えるほど儲かるモデル — お店の売上（GMV）に連動する手数料（マーチャント・ソリューション）が売上の約76%を占め、加盟店の成長がそのまま自社の成長に直結","高い粗利率と改善する営業利益率 — 粗利益率（売上から原価を引いた儲けの割合）は約49%、リストラ後に営業黒字化し利益率が急改善","強力なブランドと拡張性 — Aldo・Meta・SKIMS・Supremeなど大手も採用、アプリ連携で機能を広げるエコシステム","AIの先行活用 — 販売支援AIツールで来店・注文を押し上げ、20年分の商取引データを武器に『カテゴリーが1社だけ』の優位性を主張"],"future":["AI機能による再加速 — AI活用ツールの普及で店舗の売上とShopifyの手数料収入を底上げ","大企業向け（Shopify Plus）の拡大 — 中小だけでなく大手ブランドの取り込みでGMVを拡大","国際展開の深化 — 175ヵ国超で利用、北米外の比率を高め成長余地を確保","金融・物流サービスの拡張 — 決済（Shopify Payments）・融資・配送など加盟店向け周辺サービスで稼ぐ範囲を拡大","オフライン（実店舗POS）との統合 — ネットと店頭を一体化したオムニチャネルで利用シーンを拡大"],"risks":["超高バリュエーション — PER100倍超・予想PERでも70倍で、成長鈍化が起きると株価の下落幅が大きい","消費・景気への感応度 — 加盟店の売上（GMV）連動のため、米欧の個人消費が冷えると業績が鈍る","保有株式の時価変動 — 他社株への投資（Affirm等）の評価損益で純利益が大きく振れる（Q1も$941Mの評価損で最終赤字）","競争激化 — Amazon・BigCommerce・Wix・WooCommerce(Automattic)などとの競合、決済はStripe等とも競合","関税・通商環境 — 国際取引の比率が高く、関税や貿易制限が加盟店の取引量に影響"],"business":["マーチャント・ソリューション（売上の約76%） — 加盟店の取引額（GMV）に連動して稼ぐ事業。決済（Shopify Payments）、融資・キャッシュ前貸し、配送、POS（店頭レジ）など。お店の売上が増えるほど手数料収入が増える。","サブスクリプション・ソリューション（売上の約24%） — お店を作って運営するための月額利用料。プランに応じた定額課金で、安定した継続収入になる土台。"],"competitors":["Amazon（AMZN） — モール型ECの巨人。Shopifyは『出店』ではなく『自分の店を持つ』選択肢を提供し、ブランド独立志向の事業者を奪い合う最大の対抗軸。","BigCommerce／Wix／Squarespace — 同じく中小向けにネット店舗構築を提供するライバル群。価格や機能で競合するが規模ではShopifyが先行。","Stripe／Adyen（決済） — Shopify Paymentsの裏側で競合する決済プレイヤー。加盟店の決済手数料を巡って競う。"]}},"COMPANY_SEGMENTS":{"SHOP":{"note":"FY2025通期ベース（売上区分）","segments":[{"name":"マーチャント・ソリューション","pct":75,"note":"加盟店の取引額に連動する決済・融資・配送・POSなど（GMV連動の従量収入）"},{"name":"サブスクリプション・ソリューション","pct":25,"note":"お店を作る・運営する月額利用料（定額の継続収入）"}]}},"COMPANY_INFO":{"AAPL":"Apple Inc.","ABNB":"Airbnb, Inc.","ADBE":"Adobe Inc.","ADI":"Analog Devices, Inc.","ADP":"Automatic Data Processing, Inc.","ADSK":"Autodesk, Inc.","AEP":"American Electric Power Company, Inc.","ALNY":"Alnylam Pharmaceuticals, Inc.","AMAT":"Applied Materials, Inc.","AMD":"Advanced Micro Devices, Inc.","AMGN":"Amgen Inc.","AMZN":"Amazon.com, Inc.","APP":"AppLovin Corporation","ARM":"Arm Holdings plc","ASML":"ASML Holding N.V.","AVGO":"Broadcom Inc.","AXON":"Axon Enterprise, Inc.","AZN":"AstraZeneca PLC","BIIB":"Biogen Inc.","BKNG":"Booking Holdings Inc.","BKR":"Baker Hughes Company","CDNS":"Cadence Design Systems, Inc.","CDW":"CDW Corporation","CEG":"Constellation Energy Corporation","CHTR":"Charter Communications, Inc.","CMCSA":"Comcast Corporation","COST":"Costco Wholesale Corporation","CPRT":"Copart, Inc.","CRWD":"CrowdStrike Holdings, Inc.","CSCO":"Cisco Systems, Inc.","CSGP":"CoStar Group, Inc.","CSX":"CSX Corporation","CTAS":"Cintas Corporation","CTSH":"Cognizant Technology Solutions Corporation","DASH":"DoorDash, Inc.","DDOG":"Datadog, Inc.","DLTR":"Dollar Tree, Inc.","DXCM":"DexCom, Inc.","EA":"Electronic Arts Inc.","EXC":"Exelon Corporation","FANG":"Diamondback Energy, Inc.","FAST":"Fastenal Company","FTNT":"Fortinet, Inc.","GEHC":"GE HealthCare Technologies Inc.","GFS":"GlobalFoundries Inc.","GILD":"Gilead Sciences, Inc.","GOOG":"Alphabet Inc. (Class C)","GOOGL":"Alphabet Inc. (Class A)","HON":"Honeywell International Inc.","IDXX":"IDEXX Laboratories, Inc.","ILMN":"Illumina, Inc.","INSM":"Insmed Incorporated","INTC":"Intel Corporation","INTU":"Intuit Inc.","ISRG":"Intuitive Surgical, Inc.","KDP":"Keurig Dr Pepper Inc.","KHC":"The Kraft Heinz Company","KLAC":"KLA Corporation","LIN":"Linde plc","LRCX":"Lam Research Corporation","LULU":"Lululemon Athletica Inc.","MAR":"Marriott International, Inc.","MCHP":"Microchip Technology Incorporated","MDB":"MongoDB, Inc.","MDLZ":"Mondelez International, Inc.","MELI":"MercadoLibre, Inc.","META":"Meta Platforms, Inc.","MNST":"Monster Beverage Corporation","MPWR":"Monolithic Power Systems, Inc.","MRNA":"Moderna, Inc.","MRVL":"Marvell Technology, Inc.","MSFT":"Microsoft Corporation","MSTR":"Strategy Inc","MU":"Micron Technology, Inc.","NFLX":"Netflix, Inc.","NVDA":"NVIDIA Corporation","NXPI":"NXP Semiconductors N.V.","ODFL":"Old Dominion Freight Line, Inc.","ON":"ON Semiconductor Corporation","ORLY":"O'Reilly Automotive, Inc.","PANW":"Palo Alto Networks, Inc.","PAYX":"Paychex, Inc.","PCAR":"PACCAR Inc.","PDD":"PDD Holdings Inc.","PEP":"PepsiCo, Inc.","PLTR":"Palantir Technologies Inc.","PYPL":"PayPal Holdings, Inc.","QCOM":"QUALCOMM Incorporated","REGN":"Regeneron Pharmaceuticals, Inc.","ROP":"Roper Technologies, Inc.","ROST":"Ross Stores, Inc.","SBUX":"Starbucks Corporation","SHOP":"Shopify Inc.","SIRI":"Sirius XM Holdings Inc.","SNPS":"Synopsys, Inc.","STX":"Seagate Technology Holdings plc","TEAM":"Atlassian Corporation","TMUS":"T-Mobile US, Inc.","TRI":"Thomson Reuters Corporation","TSLA":"Tesla, Inc.","TTD":"The Trade Desk, Inc.","TTWO":"Take-Two Interactive Software, Inc.","TXN":"Texas Instruments Incorporated","VRSK":"Verisk Analytics, Inc.","VRTX":"Vertex Pharmaceuticals Incorporated","WBD":"Warner Bros. Discovery, Inc.","WDAY":"Workday, Inc.","WDC":"Western Digital Corporation","WMT":"Walmart Inc.","XEL":"Xcel Energy Inc.","ZS":"Zscaler, Inc."},"COMPANY_INFO_BEGINNER":{"SHOP":{"what":"ネット通販のお店を簡単に作れる世界的なEコマース基盤企業"}},"SECTOR_OF":{"AAPL":"hardware","ABNB":"retail","ADBE":"software","ADI":"semi","ADP":"industrials","ADSK":"software","AEP":"utilities","ALNY":"healthcare","AMAT":"semi","AMD":"semi","AMGN":"healthcare","AMZN":"retail","APP":"software","ARM":"semi","ASML":"semi","AVGO":"semi","AXON":"industrials","AZN":"healthcare","BIIB":"healthcare","BKNG":"retail","BKR":"energy","CDNS":"software","CDW":"industrials","CEG":"utilities","CHTR":"media","CMCSA":"media","COST":"retail","CPRT":"retail","CRWD":"software","CSCO":"hardware","CSGP":"software","CSX":"industrials","CTAS":"industrials","CTSH":"software","DASH":"retail","DDOG":"software","DLTR":"retail","DXCM":"healthcare","EA":"media","EXC":"utilities","FANG":"energy","FAST":"industrials","FTNT":"software","GEHC":"healthcare","GFS":"semi","GILD":"healthcare","GOOG":"internet","GOOGL":"internet","HON":"industrials","IDXX":"healthcare","ILMN":"healthcare","INSM":"healthcare","INTC":"semi","INTU":"software","ISRG":"healthcare","KDP":"consumer","KHC":"consumer","KLAC":"semi","LIN":"industrials","LRCX":"semi","LULU":"retail","MAR":"retail","MCHP":"semi","MDB":"software","MDLZ":"consumer","MELI":"retail","META":"internet","MNST":"consumer","MPWR":"semi","MRNA":"healthcare","MRVL":"semi","MSFT":"software","MSTR":"software","MU":"semi","NFLX":"internet","NVDA":"semi","NXPI":"semi","ODFL":"industrials","ON":"semi","ORLY":"retail","PANW":"software","PAYX":"industrials","PCAR":"industrials","PDD":"retail","PEP":"consumer","PLTR":"software","PYPL":"internet","QCOM":"semi","REGN":"healthcare","ROP":"industrials","ROST":"retail","SBUX":"consumer","SHOP":"software","SIRI":"media","SNPS":"software","STX":"hardware","TEAM":"software","TMUS":"media","TRI":"software","TSLA":"auto","TTD":"software","TTWO":"media","TXN":"semi","VRSK":"industrials","VRTX":"healthcare","WBD":"media","WDAY":"software","WDC":"hardware","WMT":"retail","XEL":"utilities","ZS":"software"},"DOMAIN_OF":{"SHOP":"shopify.com"},"NON_USD":{}};</script>
+<script src="../../assets/app.js"></script>
+<script>setTab=((o)=>(x)=>{if(x==="explore"){location.href="../../explore/";return;}o(x);})(setTab);</script>
+</body>
+</html>
